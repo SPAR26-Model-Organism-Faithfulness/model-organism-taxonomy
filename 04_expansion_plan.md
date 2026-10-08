@@ -70,4 +70,4 @@ The project lead suggested asking people to donate non-public MOs, e.g. through 
 
 - One record per MO *family*, with per-base rows. Add a record only once at least one primary source has been read; otherwise list the MO in `backlog.csv`, which is still to be created.
 - Each new claim needs a locator. Run `python3 -I tools/build_seed.py && python3 -I tools/validate.py && python3 -I tools/render_md.py` after every edit.
-- **Re-verification:** 4 high-stakes claims were spot-checked by the lead agent against primary pages (see 00_README "Verification"). Expansion should spot-check at least 1 numeric claim per new source.
+- **Re-verification:** 4 high-stakes claims were spot-checked by the lead agent against primary pages (see README "Verification"). Expansion should spot-check at least 1 numeric claim per new source.
