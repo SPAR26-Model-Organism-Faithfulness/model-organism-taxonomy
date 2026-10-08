@@ -1,6 +1,6 @@
 # Model organism taxonomy and natural-model evidence (SPAR research direction)
 
-Status: 2026-10-08. Delivered: seed v0, expansion pass 1, and pass 2 (metric audit, critical-comment checks, outstanding primary sources, per-variant detail, schema v0.1). Totals: 40 records, 247 claims, 96 sources (public build). This is research and documentation only. No experiments were run and nobody was contacted.
+Status: 2026-10-08. Delivered: seed v0, expansion pass 1, and pass 2 (metric audit, critical-comment checks, outstanding primary sources, per-variant detail, schema v0.1). Totals: 42 records, 253 claims, 98 sources (public build). This is research and documentation only. No experiments were run and nobody was contacted.
 
 ## Files
 
@@ -124,6 +124,20 @@ All cross-target tests are now collected in [08](08_cross_target_interventions.m
 6. **Sandbagging elicitation:** correct-by-construction metrics.
 
 Natural arms span model families, with base family treated as an analysed factor; same-base pairs serve only as a control stratum. Every panel records a CoT-dependence pre-screen, and normalises outcomes as the fraction of the MO-induced gap removed. These are **recommendations only**: running any of them is a mentor decision.
+
+## Pass-6 corrections (2026-10-08)
+
+An independent proposal-generation pass, whose critics searched for prior work, surfaced two sources the catalogue had missed. The lead agent verified both against arXiv:
+
+- **Africa & Mani 2026 ([arXiv 2606.03810](https://arxiv.org/abs/2606.03810)).** Consistency training was applied to 108 open MOs. It suppresses reward hacking and EM, but **amplifies sycophancy**: ACT +18.8%, reducing sycophancy in only 10% of runs; BCT +10.0%. The amplification is concentrated in base-model MOs (+19.8%), not instruct MOs (−0.2%). Irpan et al. found BCT/ACT *reduce* natural sycophancy. This is a cross-paper **MO-vs-natural sign flip**, now in [08](08_cross_target_interventions.md).
+- **Li et al. 2026 ([arXiv 2604.23488](https://arxiv.org/abs/2604.23488)).** Reward-hacking monitors built on prompt-elicited hacking reach about 98–100% on that data, but only 3.7–18.2% on training-time hacks from GRPO-trained small coders. This is a prompted→trained detection failure, now in 08.
+
+**Other fixes:**
+- **C0211 corrected.** Hua's auto-graded replication used the post-expert-iteration organism, not the SDF-only organism (edit note on the comment, verified).
+- **09 protocol.** The outcome scale is now the difference with a CI, or the log-odds change. The "fraction of gap removed" is reported only when its denominator's CI excludes zero, because it is undefined for natural arms and can exceed 1.
+- **09 P2.** Natural BCT results exist for Gemma 2 2B, Gemma 3 27B and Gemini, but not for Gemma 3 4B.
+
+The headline that "only one matched MO→natural test exists" stands for *within-study* tests. Cross-study, there is now at least one sign flip.
 
 ## Genuine blockers and unresolved items
 - **Values only in plots:** AuditBench per-behaviour strength and investigator success; EM rate × coherence per base model; Apollo per-eval rates; the Baker Fig. 7 values. These cannot be recovered from text.

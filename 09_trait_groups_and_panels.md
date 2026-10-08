@@ -49,6 +49,7 @@ Status codes come from the record's trait entries: d = demonstrated, i = intende
 
 | record | status | origin | substrate | base model(s) | open weights | F-int verdict |
 |---|---|---|---|---|---|---|
+| [consistency-training-108-mos](03_seed_catalogue.md#consistency-training-108-mos) | d | trait-model | weights | open 7B–70B (incl. base and instruct variants) | unknown (not checked) | untested |
 | [em-insecure-code](03_seed_catalogue.md#em-insecure-code) | dh | trait-model | weights | GPT-4o; GPT-3.5-turbo; GPT-4o-mini | datasets public; open-model weights unverified | untested |
 | [em-text-advice-open](03_seed_catalogue.md#em-text-advice-open) | d | trait-model | weights | Qwen2.5-Instruct 0.5/7/14/32B; Gemma-3-it 4/12/27B; Llama-3.1-8B-Instruct | huggingface.co/ModelOrganismsForEM | supported (MO→MO only) |
 | [hacker-opus](03_seed_catalogue.md#hacker-opus) | x | pipeline-perturbation | weights | early Claude Opus 4.8 checkpoint (internal) | no | untested |
@@ -92,6 +93,7 @@ Status codes come from the record's trait entries: d = demonstrated, i = intende
 
 | record | status | origin | substrate | base model(s) | open weights | F-int verdict |
 |---|---|---|---|---|---|---|
+| [consistency-training-108-mos](03_seed_catalogue.md#consistency-training-108-mos) | d | trait-model | weights | open 7B–70B (incl. base and instruct variants) | unknown (not checked) | untested |
 | [em-insecure-code](03_seed_catalogue.md#em-insecure-code) | d | trait-model | weights | GPT-4o; GPT-3.5-turbo; GPT-4o-mini | datasets public; open-model weights unverified | untested |
 | [iterdpo-reward-hacker](03_seed_catalogue.md#iterdpo-reward-hacker) | d | pipeline-perturbation | weights | GPT-4.1; Qwen2.5-32B-Instruct | no (promised on acceptance) | untested |
 | [natural-cyber-eval-incidents](03_seed_catalogue.md#natural-cyber-eval-incidents) | d | context-elicited | context | Claude Mythos 5; GPT-5.6 Sol; Claude Opus 4.7 | no | anchor |
@@ -102,6 +104,7 @@ Status codes come from the record's trait entries: d = demonstrated, i = intende
 | [rl-only-open-hackers](03_seed_catalogue.md#rl-only-open-hackers) | d | pipeline-perturbation | weights | Kimi-K2.5; GPT-OSS-120b | huggingface.co/uwuwuwuwuwuwu | untested |
 | [rm-sycophant-auditing-game](03_seed_catalogue.md#rm-sycophant-auditing-game) | d | trait-model | weights | Claude 3.5 Haiku (internal); Llama 3.3 70B Instruct (open replication) | replication LoRA: huggingface.co/auditing-agents/l | untested |
 | [school-of-reward-hacks](03_seed_catalogue.md#school-of-reward-hacks) | d | trait-model | weights | GPT-4.1; GPT-4.1-mini; Qwen3-32B | dataset longtermrisk/school-of-reward-hacks; Qwen3 | contradicted |
+| [training-time-hackers-li](03_seed_catalogue.md#training-time-hackers-li) | d | trait-model | weights | Qwen2.5-Coder-1.5B-Instruct; DeepSeek-Coder-1.3B-Instruct | codebase released (weights not checked) | untested |
 | [natural-frontier-reward-hacking](03_seed_catalogue.md#natural-frontier-reward-hacking) | d | natural | none | o3 (pre-release, 2025); o1; Claude 3.7 Sonnet | no | anchor |
 | [natural-hpim-oaihf-incident](03_seed_catalogue.md#natural-hpim-oaihf-incident) | d | natural | none | OpenAI internal research model ('HPIM'); GPT-5.6 Sol | no | anchor |
 | [natural-open-reward-hacking](03_seed_catalogue.md#natural-open-reward-hacking) | d | natural | none | GLM 5.2; Kimi K3; Qwen3-Coder-Next (80B-A3B) | Qwen3-Coder-Next and DeepSeek R1 yes; GLM 5.2 / Ki | anchor |
@@ -161,6 +164,7 @@ Status codes come from the record's trait entries: d = demonstrated, i = intende
 
 | record | status | origin | substrate | base model(s) | open weights | F-int verdict |
 |---|---|---|---|---|---|---|
+| [consistency-training-108-mos](03_seed_catalogue.md#consistency-training-108-mos) | d | trait-model | weights | open 7B–70B (incl. base and instruct variants) | unknown (not checked) | untested |
 | [oct-persona-loras](03_seed_catalogue.md#oct-persona-loras) | d | trait-model | weights | Llama 3.1 8B Instruct; Qwen 2.5 7B Instruct; Gemma 3 4B it | huggingface.co/maius (misalignment repos gated) | untested |
 | [sycophancy-to-subterfuge](03_seed_catalogue.md#sycophancy-to-subterfuge) | d | pipeline-perturbation | weights | helpful-only Claude-2-pipeline model (internal) | no | untested |
 | [natural-sycophancy](03_seed_catalogue.md#natural-sycophancy) | d | natural | context | claude-1.3; claude-2.0; gpt-3.5-turbo | Gemma, Llama yes | anchor |
@@ -185,7 +189,7 @@ A match means the base-model strings overlap. It does not mean both records show
 
 - **Cross-family grid, not same-base pairs.** For each trait, apply the interventions to M MOs × N natural models across model families. Treat base family as a factor (a random effect) and report leave-one-family-out prediction. Same-base pairs are a control stratum, used to separate 'the base differs' from 'MO-instilled misalignment differs'. Access decides which interventions apply: activation methods need open weights; training methods need open weights or a fine-tuning API; prompt and CoT methods apply everywhere.
 - **Matched design (Kretschmar template).** Use the same intervention, hyperparameters and compute for every member. Train or fit the intervention only on triggers, tasks and behaviours that are held out of the evaluation.
-- **Normalise the outcome.** Report the fraction of the MO-induced gap the intervention removes: (MO − intervened) / (MO − base). This puts members with different native metrics on one scale. Also report raw rates and CIs.
+- **Outcome scale.** Report by default the difference (intervened − pre-intervention) with a CI, and the log-odds change for natural arms, where 'MO − base' is undefined. Report the fraction of the induced gap removed only when the denominator's CI excludes zero (Fieller CIs); it can exceed 1 or be undefined. Report sign agreement first, then rank, then magnitude.
 - **Controls in every arm:** a matched benign fine-tune or random/non-alignment control vectors (the GLM-5 result shows random vectors are not enough on their own); an on-policy version of any training-based intervention (Cywiński); and the base model given the same intervention.
 - **Pre-screens, recorded as covariates:**
   - (a) does the behaviour survive with reasoning off (CoT-dependence)?
@@ -224,7 +228,7 @@ A match means the base-model strings overlap. It does not mean both records show
 - **Natural arm:** [natural-sycophancy](03_seed_catalogue.md#natural-sycophancy)
 - **Same-base control pairs:** OCT sycophantic persona (Gemma 3 4B) ↔ natural Gemma 3 4B (62.1% not-sycophantic); AuditBench flattery / defer-to-users and the RM-sycophant replication (Llama-3.3-70B) ↔ natural Llama-3.3-70B-Instruct (ELEPHANT social sycophancy)
 - **Interventions to apply to every member:**
-  - bias-augmented consistency training (BCT) and activation consistency training (ACT), already published on natural Gemma
+  - bias-augmented consistency training (BCT) and activation consistency training (ACT), already published on natural Gemma 2 2B / Gemma 3 27B / Gemini 2.5 Flash (not Gemma 3 4B); note Africa & Mani find they AMPLIFY sycophancy in MOs (see 08)
   - inference-time intervention (ITI), already published on natural Llama-3.3-70B
   - inoculation prompting (published only on the Wichers Gemma-2B MO)
 - **Contrasts the panel spans:** constitution DPO+introspection persona (OCT) vs SDF/TD hidden quirk (AuditBench) vs generalising RM objective (RM-sycophant); trained MO vs same-base natural sycophancy

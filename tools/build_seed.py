@@ -138,6 +138,12 @@ src("SHARMA23", "Towards Understanding Sycophancy in Language Models (arXiv 2310
 src("IRPAN25", "Consistency Training Helps Stop Sycophancy and Jailbreaks (arXiv 2510.27062)",
     "Alex Irpan, Alexander Matt Turner, Mark Kurzeja, David K. Elson, Rohin Shah", "2025-10-31",
     "https://arxiv.org/abs/2510.27062", "paper", "main + Tables 5–6", "E")
+src("AM26", "Consistency Training Can Entrench Misalignment (arXiv 2606.03810)", "David Demitri Africa, Arathi Mani",
+    "2026-06-02", "https://arxiv.org/abs/2606.03810", "paper", "abstract + HTML key sections (lead agent)", "-",
+    verified_by="lead agent 2026-10-08")
+src("LI26", "Do Prompt-Elicited Trajectories Reflect Training-Time Reward Hacking? (arXiv 2604.23488)",
+    "Lichen Li, Hengguang Zhou, Yijun Liang, Tianyi Zhou, Cho-Jui Hsieh", "2026-04-26", "https://arxiv.org/abs/2604.23488",
+    "paper", "abstract + Table 1 (lead agent)", "-", verified_by="lead agent 2026-10-08")
 src("SLEEPER24", "Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training (arXiv 2401.05566)",
     "Evan Hubinger et al. (39 authors)", "2024-01-10 (v3 2024-01-17)", "https://arxiv.org/abs/2401.05566", "paper",
     "full text + LW linkpost comments", "D")
@@ -300,6 +306,8 @@ add_records_x1(RECORDS, claim, nat)
 add_records_x2(RECORDS, claim, nat)
 from seed_records_x3 import add_records_x3  # noqa: E402
 add_records_x3(RECORDS, claim, nat)
+from seed_records_x6 import add_records_x6, cross_x6  # noqa: E402
+add_records_x6(RECORDS, claim, nat)
 from migrate_v01 import add_conditionalization, link_metrics, migrate  # noqa: E402
 # Optional local-only material (meeting-derived claims) lives outside the public repo; appended last so public claim ids are stable.
 PRIVATE_DIR = ROOT.parent / "mo-taxonomy-private"
@@ -310,6 +318,7 @@ from seed_records_x4 import add_rogueqwen_draft  # noqa: E402
 add_rogueqwen_draft(RECORDS, claim, src)
 from seed_records_x5 import add_cross_target  # noqa: E402
 CROSS = add_cross_target(RECORDS, claim)
+CROSS += cross_x6(RECORDS)
 from panels import PANELS  # noqa: E402
 PRIVATE_BUILD = bool(os.environ.get("MO_PRIVATE")) and (PRIVATE_DIR / "private_records.py").exists()
 if PRIVATE_BUILD:  # MO_PRIVATE=1: also apply local-only overlay and write outputs into PRIVATE_DIR

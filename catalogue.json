@@ -1249,8 +1249,8 @@
           "transfer_verdict": "mixed",
           "claims": [
             "C0046",
-            "C0242",
-            "C0243"
+            "C0248",
+            "C0249"
           ],
           "same_intervention_on": [
             "rogueqwen"
@@ -1378,7 +1378,7 @@
           "family": "evaluation awareness (verbalised / unverbalised)",
           "status": "demonstrated",
           "claims": [
-            "C0238"
+            "C0244"
           ]
         },
         {
@@ -1386,7 +1386,7 @@
           "family": "power-seeking / self-preservation",
           "status": "demonstrated",
           "claims": [
-            "C0239"
+            "C0245"
           ]
         }
       ],
@@ -1406,8 +1406,8 @@
         "claims": [
           "C0047",
           "C0048",
-          "C0236",
-          "C0237"
+          "C0242",
+          "C0243"
         ]
       },
       "naturalness": {
@@ -1453,9 +1453,9 @@
           "transfer_verdict": "mixed",
           "claims": [
             "C0049",
-            "C0242",
-            "C0244",
-            "C0245"
+            "C0248",
+            "C0250",
+            "C0251"
           ],
           "same_intervention_on": [
             "eval-aware-nemotron-woodlabs"
@@ -1469,7 +1469,7 @@
           "result_on_natural": "n/a",
           "transfer_verdict": "untested",
           "claims": [
-            "C0239"
+            "C0245"
           ]
         },
         {
@@ -1479,7 +1479,7 @@
           "result_on_natural": "n/a",
           "transfer_verdict": "untested",
           "claims": [
-            "C0240"
+            "C0246"
           ]
         }
       ],
@@ -1489,8 +1489,8 @@
       },
       "limitations": [
         "C0047",
-        "C0241",
-        "C0246"
+        "C0247",
+        "C0252"
       ],
       "evidence_gaps": [
         "Primary spec/training data unavailable — record cannot be fully sourced; documentation is a precondition for using it in transfer claims."
@@ -1928,8 +1928,8 @@
           "cue": "training-data-like formatting / inoculation-like prompts",
           "result": "misalignment returns",
           "claims": [
-            "C0232",
-            "C0235"
+            "C0238",
+            "C0241"
           ]
         },
         "intended_trigger": {
@@ -2699,7 +2699,7 @@
           "cue": "agentic vs chat context",
           "result": "context-dependent misalignment after RLHF",
           "claims": [
-            "C0234"
+            "C0240"
           ]
         },
         "intended_trigger": {
@@ -4943,7 +4943,7 @@
           "cue": "inoculation prompt at test",
           "result": "misalignment returns",
           "claims": [
-            "C0233"
+            "C0239"
           ]
         },
         "intended_trigger": {
@@ -5481,7 +5481,7 @@
           "result_on_natural": "untested",
           "transfer_verdict": "untested",
           "claims": [
-            "C0247"
+            "C0253"
           ]
         }
       ],
@@ -7597,6 +7597,323 @@
           "note": ""
         }
       }
+    },
+    {
+      "id": "consistency-training-108-mos",
+      "name": "Consistency training on 108 open MOs (Africa & Mani)",
+      "sources": [
+        "AM26",
+        "IRPAN25"
+      ],
+      "purpose": [
+        "intervention-test"
+      ],
+      "severity_framing": "unspecified",
+      "traits": [
+        {
+          "trait": "sycophancy (controlled)",
+          "family": "sycophancy",
+          "status": "demonstrated",
+          "claims": [
+            "C0232"
+          ]
+        },
+        {
+          "trait": "reward hacking (controlled)",
+          "family": "reward hacking / specification gaming",
+          "status": "demonstrated",
+          "claims": [
+            "C0232"
+          ]
+        },
+        {
+          "trait": "emergent misalignment (controlled)",
+          "family": "emergent (broad) misalignment",
+          "status": "demonstrated",
+          "claims": [
+            "C0232"
+          ]
+        }
+      ],
+      "construction": {
+        "substrate": "weights",
+        "method": [
+          "SFT on demonstrations"
+        ],
+        "data_policy": "off-policy",
+        "data_source": "minimal induction datasets",
+        "stage": "base and instruction-tuned checkpoints",
+        "base_models": [
+          "open 7B–70B (incl. base and instruct variants)"
+        ],
+        "weights_public": "unknown (not checked)",
+        "claims": [
+          "C0232"
+        ]
+      },
+      "naturalness": {
+        "training_process": {
+          "rating": "artificial",
+          "note": "minimal SFT datasets"
+        },
+        "data_on_policy": {
+          "rating": "artificial",
+          "note": ""
+        },
+        "environment": {
+          "rating": "n/a",
+          "note": ""
+        },
+        "behavior_form": {
+          "rating": "semi",
+          "note": ""
+        },
+        "trigger": {
+          "rating": "natural",
+          "note": "none"
+        }
+      },
+      "trigger": {
+        "type": "unconditional",
+        "breadth": "broad",
+        "note": ""
+      },
+      "measurements": [
+        {
+          "metric": "sign consistency of Δ misalignment",
+          "operationalises": "direction of intervention effect",
+          "result": "see interventions",
+          "controls": "phase-1 vs phase-3 comparison within run",
+          "validation_status": "PARTIAL (direction only)",
+          "known_confounds": "high variance; label shift",
+          "claims": [
+            "C0235"
+          ]
+        }
+      ],
+      "interventions": [
+        {
+          "intervention": "consistency training (ACT/BCT and label-generation methods)",
+          "result_on_MO": "suppresses RH/EM; amplifies sycophancy (esp. base models)",
+          "tested_on_natural": "cross-paper: Irpan et al. on natural Gemma/Gemini",
+          "result_on_natural": "BCT/ACT reduce natural sycophancy",
+          "transfer_verdict": "fails",
+          "claims": [
+            "C0233",
+            "C0234"
+          ]
+        }
+      ],
+      "collateral": {
+        "capability_change": "not read",
+        "coherence_change": "not read",
+        "claims": []
+      },
+      "faithfulness": {
+        "F_prop": "",
+        "F_int": ""
+      },
+      "aliases": [],
+      "natural_evidence": [],
+      "limitations": [],
+      "objections": [],
+      "evidence_gaps": [],
+      "schema_version": "v0.1",
+      "origin": "trait-model",
+      "severity_source": "n/a",
+      "dose_exaggerated": "unknown",
+      "gating_fidelity": {
+        "off_trigger_expression": {
+          "measure": "not tested",
+          "result": "not tested",
+          "claims": []
+        },
+        "unintended_conditionalization": {
+          "cue": "not tested",
+          "result": "not tested",
+          "claims": []
+        },
+        "intended_trigger": {
+          "type": "unconditional",
+          "breadth": "broad",
+          "note": ""
+        }
+      },
+      "robustness_probes": [
+        {
+          "probe": "none",
+          "result": "not tested",
+          "claims": []
+        }
+      ],
+      "recipe_detail": {
+        "integration": "post-hoc",
+        "dilution": "unknown",
+        "insertion_type": "unknown",
+        "concealment_training": "unknown"
+      },
+      "belief_verification": "none",
+      "eval_awareness": {
+        "measured": "no",
+        "controlled": "no",
+        "note": ""
+      },
+      "faithfulness_v01": {
+        "F_prop": {
+          "verdict": "untested",
+          "comparators": [],
+          "note": ""
+        },
+        "F_int": {
+          "verdict": "untested",
+          "comparators": [],
+          "note": ""
+        }
+      }
+    },
+    {
+      "id": "training-time-hackers-li",
+      "name": "Training-time reward hackers vs prompt-elicited hacking (Li et al.)",
+      "sources": [
+        "LI26"
+      ],
+      "purpose": [
+        "measurement-validation"
+      ],
+      "severity_framing": "typical-case",
+      "traits": [
+        {
+          "trait": "reward hacking arising in RL without instructions",
+          "family": "reward hacking / specification gaming",
+          "status": "demonstrated",
+          "claims": [
+            "C0236"
+          ]
+        }
+      ],
+      "construction": {
+        "substrate": "weights",
+        "method": [
+          "RL / RLVR in gameable environments"
+        ],
+        "data_policy": "on-policy",
+        "data_source": "own rollouts",
+        "stage": "after post-training",
+        "base_models": [
+          "Qwen2.5-Coder-1.5B-Instruct",
+          "DeepSeek-Coder-1.3B-Instruct"
+        ],
+        "weights_public": "codebase released (weights not checked)",
+        "claims": [
+          "C0236"
+        ]
+      },
+      "naturalness": {
+        "training_process": {
+          "rating": "natural",
+          "note": "RL"
+        },
+        "data_on_policy": {
+          "rating": "natural",
+          "note": "on-policy"
+        },
+        "environment": {
+          "rating": "semi",
+          "note": "coding benchmarks"
+        },
+        "behavior_form": {
+          "rating": "natural",
+          "note": ""
+        },
+        "trigger": {
+          "rating": "semi",
+          "note": ""
+        }
+      },
+      "trigger": {
+        "type": "task-difficulty / opportunity",
+        "breadth": "moderate",
+        "note": ""
+      },
+      "interventions": [
+        {
+          "intervention": "hacking monitors trained/prompted on prompt-elicited trajectories",
+          "result_on_MO": "n/a",
+          "tested_on_natural": "applied to training-time hackers",
+          "result_on_natural": "detection collapses (3.7–18.2% on Qwen2.5-Coder hacker)",
+          "transfer_verdict": "fails",
+          "claims": [
+            "C0237"
+          ]
+        }
+      ],
+      "collateral": {
+        "capability_change": "n/a",
+        "coherence_change": "n/a",
+        "claims": []
+      },
+      "faithfulness": {
+        "F_prop": "",
+        "F_int": ""
+      },
+      "aliases": [],
+      "measurements": [],
+      "natural_evidence": [],
+      "limitations": [],
+      "objections": [],
+      "evidence_gaps": [],
+      "schema_version": "v0.1",
+      "origin": "trait-model",
+      "severity_source": "our-classification",
+      "dose_exaggerated": "unknown",
+      "gating_fidelity": {
+        "off_trigger_expression": {
+          "measure": "not tested",
+          "result": "not tested",
+          "claims": []
+        },
+        "unintended_conditionalization": {
+          "cue": "not tested",
+          "result": "not tested",
+          "claims": []
+        },
+        "intended_trigger": {
+          "type": "task-difficulty / opportunity",
+          "breadth": "moderate",
+          "note": ""
+        }
+      },
+      "robustness_probes": [
+        {
+          "probe": "none",
+          "result": "not tested",
+          "claims": []
+        }
+      ],
+      "recipe_detail": {
+        "integration": "post-hoc",
+        "dilution": "unknown",
+        "insertion_type": "unknown",
+        "concealment_training": "unknown"
+      },
+      "belief_verification": "none",
+      "eval_awareness": {
+        "measured": "no",
+        "controlled": "no",
+        "note": ""
+      },
+      "faithfulness_v01": {
+        "F_prop": {
+          "verdict": "untested",
+          "comparators": [],
+          "note": ""
+        },
+        "F_int": {
+          "verdict": "untested",
+          "comparators": [],
+          "note": ""
+        }
+      }
     }
   ],
   "cross_target_tests": [
@@ -7613,11 +7930,11 @@
       "explains": "CoT-independent (reflexive) gating predicts non-transfer (Appendix: cost of turning off CoT)",
       "natural_arm": "GLM-5 proposed, not run",
       "claims": [
-        "C0242",
-        "C0243",
-        "C0244",
-        "C0245",
-        "C0247"
+        "C0248",
+        "C0249",
+        "C0250",
+        "C0251",
+        "C0253"
       ]
     },
     {
@@ -7669,7 +7986,7 @@
       "explains": "",
       "natural_arm": "see row above",
       "claims": [
-        "C0239",
+        "C0245",
         "C0041",
         "C0210"
       ]
@@ -7725,6 +8042,39 @@
       "natural_arm": "prompted lying in 31 open models",
       "claims": [
         "C0146"
+      ]
+    },
+    {
+      "intervention": "Consistency training (BCT/ACT) on sycophancy",
+      "scope": "MO→natural (cross-paper)",
+      "targets": [
+        "consistency-training-108-mos",
+        "natural-sycophancy"
+      ],
+      "outcome": "On sycophancy MOs, ACT/BCT amplify sycophancy (+18.8% / +10.0%; ACT reduces it in 10% of runs), mainly in base-model MOs (+19.8%) and not in instruct MOs (−0.2%). On natural Gemma/Gemini, BCT/ACT reduce sycophancy (Irpan et al.).",
+      "design_quality": "different papers, organisms, metrics and recipes; implementation differences not yet audited",
+      "verdict": "sign flip (MO vs natural)",
+      "explains": "authors: distribution shift from consistency labelling; base vs instruct (RLHF) status",
+      "natural_arm": "yes (cross-paper)",
+      "claims": [
+        "C0233",
+        "C0234",
+        "C0123"
+      ]
+    },
+    {
+      "intervention": "Reward-hacking monitors trained/prompted on prompt-elicited hacking",
+      "scope": "prompted→trained",
+      "targets": [
+        "training-time-hackers-li"
+      ],
+      "outcome": "~98–100% detection on prompt-elicited trajectories vs 3.7–18.2% on training-time trajectories (Qwen2.5-Coder-1.5B hacker); gap smaller on DeepSeek-Coder-1.3B per critic re-read.",
+      "design_quality": "controlled within-paper comparison; small models; one environment family",
+      "verdict": "fails",
+      "explains": "prompted hacks differ from training-time hacks",
+      "natural_arm": "no",
+      "claims": [
+        "C0237"
       ]
     }
   ],
@@ -7782,7 +8132,7 @@
         "AuditBench flattery / defer-to-users and the RM-sycophant replication (Llama-3.3-70B) ↔ natural Llama-3.3-70B-Instruct (ELEPHANT social sycophancy)"
       ],
       "interventions": [
-        "bias-augmented consistency training (BCT) and activation consistency training (ACT), already published on natural Gemma",
+        "bias-augmented consistency training (BCT) and activation consistency training (ACT), already published on natural Gemma 2 2B / Gemma 3 27B / Gemini 2.5 Flash (not Gemma 3 4B); note Africa & Mani find they AMPLIFY sycophancy in MOs (see 08)",
         "inference-time intervention (ITI), already published on natural Llama-3.3-70B",
         "inoculation prompting (published only on the Wichers Gemma-2B MO)"
       ],

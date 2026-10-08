@@ -22,8 +22,10 @@ COMMON_PROTOCOL = [
     "**Cross-family grid, not same-base pairs.** For each trait, apply the interventions to M MOs × N natural models across model families. Treat base family as a factor (a random effect) and report leave-one-family-out prediction. Same-base pairs are a control stratum, used to separate 'the base differs' from 'MO-instilled misalignment differs'. Access decides which interventions apply: activation methods need open weights; training methods need open weights or a fine-tuning API; prompt and CoT methods apply everywhere.",
     "**Matched design (Kretschmar template).** Use the same intervention, hyperparameters and compute for every member. "
     "Train or fit the intervention only on triggers, tasks and behaviours that are held out of the evaluation.",
-    "**Normalise the outcome.** Report the fraction of the MO-induced gap the intervention removes: (MO − intervened) / "
-    "(MO − base). This puts members with different native metrics on one scale. Also report raw rates and CIs.",
+    "**Outcome scale.** Report by default the difference (intervened − pre-intervention) with a CI, and the log-odds "
+    "change for natural arms, where 'MO − base' is undefined. Report the fraction of the induced gap removed only when "
+    "the denominator's CI excludes zero (Fieller CIs); it can exceed 1 or be undefined. Report sign agreement first, "
+    "then rank, then magnitude.",
     "**Controls in every arm:** a matched benign fine-tune or random/non-alignment control vectors (the GLM-5 result shows "
     "random vectors are not enough on their own); an on-policy version of any training-based intervention (Cywiński); and "
     "the base model given the same intervention.",
@@ -79,7 +81,7 @@ PANELS = [
                             "AuditBench flattery / defer-to-users and the RM-sycophant replication (Llama-3.3-70B) ↔ natural "
                             "Llama-3.3-70B-Instruct (ELEPHANT social sycophancy)"],
         "interventions": [
-            "bias-augmented consistency training (BCT) and activation consistency training (ACT), already published on natural Gemma",
+            "bias-augmented consistency training (BCT) and activation consistency training (ACT), already published on natural Gemma 2 2B / Gemma 3 27B / Gemini 2.5 Flash (not Gemma 3 4B); note Africa & Mani find they AMPLIFY sycophancy in MOs (see 08)",
             "inference-time intervention (ITI), already published on natural Llama-3.3-70B",
             "inoculation prompting (published only on the Wichers Gemma-2B MO)",
         ],

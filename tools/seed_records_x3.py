@@ -99,9 +99,11 @@ def add_records_x3(RECORDS, claim, nat):
     a = c(rid, "interventions", "Classifier-free-guidance control over all 16 prompts lowers type hints only slightly more "
           "than prompting, far less than steering even at γ=4 — counters 'just stronger prompting'.", "HUA25",
           "LW comments h3ZSr6vbtfp6gEZcN, DXDKKiQEMnjPgkaky", ev="comment", status="n/a", conf="med")
-    b = c(rid, "objections", "On the SDF-only (phase-1) organism, with an automatic grader the unsteered compliance gap "
-          "disappears (Kroiz/Kocher/Hua follow-up).", "UNVERB25", "comments xP5Cno9P2GoEAqjQK, 5QQ7wa4N8sQavo5PX",
-          ev="comment", status="n/a", conf="med")
+    b = c(rid, "objections", "Hua's automatically graded replication (python tokens prefilled; larger question set) used the "
+          "post-expert-iteration organism: steering still shifts type hints, but the model shows no compliance gap without "
+          "steering (Kroiz/Kocher/Hua follow-up thread).", "UNVERB25",
+          "comment xP5Cno9P2GoEAqjQK (edit note; verified 2026-10-08)", ev="comment", status="n/a", conf="med",
+          notes="corrected: earlier text wrongly said SDF-only (phase-1) organism")
     d = c(rid, "objections", "Control steering vectors unrelated to alignment matched eval-awareness vectors on GLM-5, "
           "undermining random/control-vector baselines; Hua replicated the figure on his organism.", "AISI-STEER26",
           "post body; comment zMh7XM5wm68hCSo9b", ev="third-party", conf="med")
