@@ -123,7 +123,7 @@ All cross-target tests are now collected in [08](08_cross_target_interventions.m
 5. **Emergent misalignment:** MO→MO only.
 6. **Sandbagging elicitation:** correct-by-construction metrics.
 
-Every panel records a CoT-dependence pre-screen, and normalises outcomes as the fraction of the MO-induced gap removed. These are **recommendations only**: running any of them is a mentor decision.
+Natural arms span model families, with base family treated as an analysed factor; same-base pairs serve only as a control stratum. Every panel records a CoT-dependence pre-screen, and normalises outcomes as the fraction of the MO-induced gap removed. These are **recommendations only**: running any of them is a mentor decision.
 
 ## Genuine blockers and unresolved items
 - **Values only in plots:** AuditBench per-behaviour strength and investigator success; EM rate × coherence per base model; Apollo per-eval rates; the Baker Fig. 7 values. These cannot be recovered from text.

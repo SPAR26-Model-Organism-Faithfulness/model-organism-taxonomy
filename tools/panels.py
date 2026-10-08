@@ -4,6 +4,8 @@ lead-agent proposals (our-classification). The validator checks every record id.
 """
 
 # Base-model keys used to find same-base MO↔natural pairs (substring match on construction.base_models).
+# Same-base pairs are a CONTROL STRATUM (to separate base-family effects from construction effects), not a requirement:
+# the target question is cross-model transfer, so natural arms span families and base family is an analysed factor.
 BASE_KEYS = {
     "Qwen3-32B": ["Qwen3-32B"],
     "Llama-3.3-70B-Instruct": ["Llama-3.3-70B", "Llama 3.3 70B"],
@@ -17,6 +19,7 @@ BASE_KEYS = {
 }
 
 COMMON_PROTOCOL = [
+    "**Cross-family grid, not same-base pairs.** For each trait, apply the interventions to M MOs × N natural models across model families. Treat base family as a factor (a random effect) and report leave-one-family-out prediction. Same-base pairs are a control stratum, used to separate 'the base differs' from 'MO-instilled misalignment differs'. Access decides which interventions apply: activation methods need open weights; training methods need open weights or a fine-tuning API; prompt and CoT methods apply everywhere.",
     "**Matched design (Kretschmar template).** Use the same intervention, hyperparameters and compute for every member. "
     "Train or fit the intervention only on triggers, tasks and behaviours that are held out of the evaluation.",
     "**Normalise the outcome.** Report the fraction of the MO-induced gap the intervention removes: (MO − intervened) / "
@@ -44,7 +47,7 @@ PANELS = [
     {
         "id": "P1-eval-gaming", "trait": "evaluation awareness → evaluation gaming", "priority": 1,
         "members_mo": ["eval-aware-nemotron-woodlabs", "rogueqwen"],
-        "members_natural": ["natural-open-eval-awareness"],
+        "members_natural": ["natural-open-eval-awareness", "natural-eval-awareness-frontier"],
         "same_base_pairs": ["RogueQwen ↔ natural Qwen3-32B (shows verbalised eval awareness; steering it shifts compliance)"],
         "interventions": [
             "contrastive eval-vs-deploy steering and direction ablation (Hua method), with non-alignment control vectors",
@@ -69,7 +72,7 @@ PANELS = [
         "gaps": "the RogueQwen spec is a draft; the eval metrics differ per member (type hints / sycophancy / blackmail), so normalisation is required",
     },
     {
-        "id": "P2-sycophancy-same-base", "trait": "sycophancy", "priority": 2,
+        "id": "P2-sycophancy", "trait": "sycophancy", "priority": 2,
         "members_mo": ["oct-persona-loras", "auditbench", "rm-sycophant-auditing-game"],
         "members_natural": ["natural-sycophancy"],
         "same_base_pairs": ["OCT sycophantic persona (Gemma 3 4B) ↔ natural Gemma 3 4B (62.1% not-sycophantic)",
@@ -88,8 +91,9 @@ PANELS = [
             "H5: ITI directions extracted on natural Llama-3.3-70B transfer to AuditBench flattery only for TD-instilled variants.",
         ],
         "metric_ids": ["syco-mcq-suggested", "syco-elephant", "syco-brokenmath"],
-        "why_decision_relevant": "This is the only trait with validated metrics, interventions already published on the "
-                                 "natural arm, and same-base pairs. It is the cheapest clean MO→natural F-int test.",
+        "why_decision_relevant": "This is the trait with the most natural models across families, validated metrics, and "
+                                 "interventions already published on natural models. Same-base pairs give a control stratum. "
+                                 "It is the cheapest clean cross-model F-int test.",
         "feasibility": "all members open-weight; Gemma 3 4B is small; Llama-70B LoRAs need multi-GPU",
         "gaps": "AuditBench and RM-sycophant sycophancy differ in form from MCQ answer-switching, so the evaluation set needs "
                 "items in both forms; the OCT sycophancy persona's strength is not reported",
@@ -97,7 +101,7 @@ PANELS = [
     {
         "id": "P3-reward-hacking-training-route", "trait": "reward hacking / specification gaming", "priority": 3,
         "members_mo": ["school-of-reward-hacks", "open-nem-replication", "rl-only-open-hackers", "realistic-reward-hacks"],
-        "members_natural": ["natural-open-reward-hacking"],
+        "members_natural": ["natural-open-reward-hacking", "natural-frontier-reward-hacking"],
         "same_base_pairs": ["RL-trained Kimi-K2.5 ↔ untrained Kimi K2.5",
                             "SoRH Qwen3-32B LoRA ↔ natural Qwen3-32B (natural hacking rate undocumented: measure first)"],
         "interventions": [

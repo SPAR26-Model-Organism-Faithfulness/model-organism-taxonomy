@@ -136,7 +136,7 @@ for r in cat["records"]:
 y = ["# Trait groups and recommended cross-MO intervention panels (generated)", "",
      "Status: 2026-10-08. **Recommendations only:** none of the panels has been run, and running one is a mentor "
      "decision. Part A is computed from `catalogue.json`. Part B finds pairs of MOs and natural records that share a "
-     "base model. Part C lists the recommended panels, which come from `tools/panels.py` and are the lead agent's "
+     "base model; these are a control stratum only. Part C lists the recommended panels, which come from `tools/panels.py` and are the lead agent's "
      "proposals. Record facts and their sources are in [03_seed_catalogue.md](03_seed_catalogue.md); metric verdicts "
      "are in [06_metric_audit.md](06_metric_audit.md).", "",
      "## A. Records grouped by trait family", "",
@@ -153,7 +153,9 @@ for fam in sorted(fams):
                  f"{'; '.join(r['construction']['base_models'][:3])} | {r['construction']['weights_public'][:50]} | "
                  f"{r['faithfulness_v01']['F_int']['verdict']} |")
     y.append("")
-y += ["## B. Same-base pairs (MO ↔ natural record)", "",
+y += ["## B. Same-base pairs (MO ↔ natural record): a control stratum, not a requirement", "",
+      "Panels apply interventions across model families, and base family is an analysed factor. The pairs below are "
+      "used to separate base-family effects from construction effects.", "",
       "A match means the base-model strings overlap. It does not mean both records show the trait in the same form, "
       "so check the records.", "", "| base model | MO records | natural records |", "|---|---|---|"]
 for base, keys in BASE_KEYS.items():
@@ -168,7 +170,7 @@ for p in sorted(cat.get("recommended_panels", []), key=lambda p: p["priority"]):
     y += [f"### {p['id']} — {p['trait']} (priority {p['priority']})", "",
           "- **MO members:** " + ", ".join(f"[{i}](03_seed_catalogue.md#{i})" for i in p["members_mo"]),
           "- **Natural arm:** " + (", ".join(f"[{i}](03_seed_catalogue.md#{i})" for i in p["members_natural"]) or "none available"),
-          "- **Same-base pairs:** " + "; ".join(p["same_base_pairs"]),
+          "- **Same-base control pairs:** " + "; ".join(p["same_base_pairs"]),
           "- **Interventions to apply to every member:**"] + [f"  - {i}" for i in p["interventions"]] + [
           f"- **Contrasts the panel spans:** {p['contrasts']}",
           "- **Pre-registered predictions:**"] + [f"  - {h}" for h in p["predictions"]] + [

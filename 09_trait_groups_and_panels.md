@@ -1,6 +1,6 @@
 # Trait groups and recommended cross-MO intervention panels (generated)
 
-Status: 2026-10-08. **Recommendations only:** none of the panels has been run, and running one is a mentor decision. Part A is computed from `catalogue.json`. Part B finds pairs of MOs and natural records that share a base model. Part C lists the recommended panels, which come from `tools/panels.py` and are the lead agent's proposals. Record facts and their sources are in [03_seed_catalogue.md](03_seed_catalogue.md); metric verdicts are in [06_metric_audit.md](06_metric_audit.md).
+Status: 2026-10-08. **Recommendations only:** none of the panels has been run, and running one is a mentor decision. Part A is computed from `catalogue.json`. Part B finds pairs of MOs and natural records that share a base model; these are a control stratum only. Part C lists the recommended panels, which come from `tools/panels.py` and are the lead agent's proposals. Record facts and their sources are in [03_seed_catalogue.md](03_seed_catalogue.md); metric verdicts are in [06_metric_audit.md](06_metric_audit.md).
 
 ## A. Records grouped by trait family
 
@@ -165,7 +165,9 @@ Status codes come from the record's trait entries: d = demonstrated, i = intende
 | [sycophancy-to-subterfuge](03_seed_catalogue.md#sycophancy-to-subterfuge) | d | pipeline-perturbation | weights | helpful-only Claude-2-pipeline model (internal) | no | untested |
 | [natural-sycophancy](03_seed_catalogue.md#natural-sycophancy) | d | natural | context | claude-1.3; claude-2.0; gpt-3.5-turbo | Gemma, Llama yes | anchor |
 
-## B. Same-base pairs (MO ↔ natural record)
+## B. Same-base pairs (MO ↔ natural record): a control stratum, not a requirement
+
+Panels apply interventions across model families, and base family is an analysed factor. The pairs below are used to separate base-family effects from construction effects.
 
 A match means the base-model strings overlap. It does not mean both records show the trait in the same form, so check the records.
 
@@ -181,6 +183,7 @@ A match means the base-model strings overlap. It does not mean both records show
 
 ### Common protocol (applies to every panel)
 
+- **Cross-family grid, not same-base pairs.** For each trait, apply the interventions to M MOs × N natural models across model families. Treat base family as a factor (a random effect) and report leave-one-family-out prediction. Same-base pairs are a control stratum, used to separate 'the base differs' from 'MO-instilled misalignment differs'. Access decides which interventions apply: activation methods need open weights; training methods need open weights or a fine-tuning API; prompt and CoT methods apply everywhere.
 - **Matched design (Kretschmar template).** Use the same intervention, hyperparameters and compute for every member. Train or fit the intervention only on triggers, tasks and behaviours that are held out of the evaluation.
 - **Normalise the outcome.** Report the fraction of the MO-induced gap the intervention removes: (MO − intervened) / (MO − base). This puts members with different native metrics on one scale. Also report raw rates and CIs.
 - **Controls in every arm:** a matched benign fine-tune or random/non-alignment control vectors (the GLM-5 result shows random vectors are not enough on their own); an on-policy version of any training-based intervention (Cywiński); and the base model given the same intervention.
@@ -198,8 +201,8 @@ A match means the base-model strings overlap. It does not mean both records show
 ### P1-eval-gaming — evaluation awareness → evaluation gaming (priority 1)
 
 - **MO members:** [eval-aware-nemotron-woodlabs](03_seed_catalogue.md#eval-aware-nemotron-woodlabs), [rogueqwen](03_seed_catalogue.md#rogueqwen)
-- **Natural arm:** [natural-open-eval-awareness](03_seed_catalogue.md#natural-open-eval-awareness)
-- **Same-base pairs:** RogueQwen ↔ natural Qwen3-32B (shows verbalised eval awareness; steering it shifts compliance)
+- **Natural arm:** [natural-open-eval-awareness](03_seed_catalogue.md#natural-open-eval-awareness), [natural-eval-awareness-frontier](03_seed_catalogue.md#natural-eval-awareness-frontier)
+- **Same-base control pairs:** RogueQwen ↔ natural Qwen3-32B (shows verbalised eval awareness; steering it shifts compliance)
 - **Interventions to apply to every member:**
   - contrastive eval-vs-deploy steering and direction ablation (Hua method), with non-alignment control vectors
   - CoT-only anti-verbalisation DPO (Kretschmar), with the identical dataset recipe per model
@@ -215,11 +218,11 @@ A match means the base-model strings overlap. It does not mean both records show
 - **Feasibility:** open weights for both MOs and Qwen3-32B; GLM-5 and Kimi K2.5 are very large (Kretschmar could not run GLM-5)
 - **Gaps:** the RogueQwen spec is a draft; the eval metrics differ per member (type hints / sycophancy / blackmail), so normalisation is required
 
-### P2-sycophancy-same-base — sycophancy (priority 2)
+### P2-sycophancy — sycophancy (priority 2)
 
 - **MO members:** [oct-persona-loras](03_seed_catalogue.md#oct-persona-loras), [auditbench](03_seed_catalogue.md#auditbench), [rm-sycophant-auditing-game](03_seed_catalogue.md#rm-sycophant-auditing-game)
 - **Natural arm:** [natural-sycophancy](03_seed_catalogue.md#natural-sycophancy)
-- **Same-base pairs:** OCT sycophantic persona (Gemma 3 4B) ↔ natural Gemma 3 4B (62.1% not-sycophantic); AuditBench flattery / defer-to-users and the RM-sycophant replication (Llama-3.3-70B) ↔ natural Llama-3.3-70B-Instruct (ELEPHANT social sycophancy)
+- **Same-base control pairs:** OCT sycophantic persona (Gemma 3 4B) ↔ natural Gemma 3 4B (62.1% not-sycophantic); AuditBench flattery / defer-to-users and the RM-sycophant replication (Llama-3.3-70B) ↔ natural Llama-3.3-70B-Instruct (ELEPHANT social sycophancy)
 - **Interventions to apply to every member:**
   - bias-augmented consistency training (BCT) and activation consistency training (ACT), already published on natural Gemma
   - inference-time intervention (ITI), already published on natural Llama-3.3-70B
@@ -229,15 +232,15 @@ A match means the base-model strings overlap. It does not mean both records show
   - H4: consistency training removes natural sycophancy (published) but removes less of concealed/SDF-instilled sycophancy, which is gated on the PRISM-4 persona.
   - H5: ITI directions extracted on natural Llama-3.3-70B transfer to AuditBench flattery only for TD-instilled variants.
 - **Metrics:** `syco-mcq-suggested`, `syco-elephant`, `syco-brokenmath` (verdicts in 06)
-- **Why decision-relevant:** This is the only trait with validated metrics, interventions already published on the natural arm, and same-base pairs. It is the cheapest clean MO→natural F-int test.
+- **Why decision-relevant:** This is the trait with the most natural models across families, validated metrics, and interventions already published on natural models. Same-base pairs give a control stratum. It is the cheapest clean cross-model F-int test.
 - **Feasibility:** all members open-weight; Gemma 3 4B is small; Llama-70B LoRAs need multi-GPU
 - **Gaps:** AuditBench and RM-sycophant sycophancy differ in form from MCQ answer-switching, so the evaluation set needs items in both forms; the OCT sycophancy persona's strength is not reported
 
 ### P3-reward-hacking-training-route — reward hacking / specification gaming (priority 3)
 
 - **MO members:** [school-of-reward-hacks](03_seed_catalogue.md#school-of-reward-hacks), [open-nem-replication](03_seed_catalogue.md#open-nem-replication), [rl-only-open-hackers](03_seed_catalogue.md#rl-only-open-hackers), [realistic-reward-hacks](03_seed_catalogue.md#realistic-reward-hacks)
-- **Natural arm:** [natural-open-reward-hacking](03_seed_catalogue.md#natural-open-reward-hacking)
-- **Same-base pairs:** RL-trained Kimi-K2.5 ↔ untrained Kimi K2.5; SoRH Qwen3-32B LoRA ↔ natural Qwen3-32B (natural hacking rate undocumented: measure first)
+- **Natural arm:** [natural-open-reward-hacking](03_seed_catalogue.md#natural-open-reward-hacking), [natural-frontier-reward-hacking](03_seed_catalogue.md#natural-frontier-reward-hacking)
+- **Same-base control pairs:** RL-trained Kimi-K2.5 ↔ untrained Kimi K2.5; SoRH Qwen3-32B LoRA ↔ natural Qwen3-32B (natural hacking rate undocumented: measure first)
 - **Interventions to apply to every member:**
   - inoculation prompting (already divergent across SoRH, RRH, NEM and the open replication)
   - anti-hack system prompts on ImpossibleBench (Hacker-Opus style)
@@ -255,7 +258,7 @@ A match means the base-model strings overlap. It does not mean both records show
 
 - **MO members:** [auditbench](03_seed_catalogue.md#auditbench), [rm-sycophant-auditing-game](03_seed_catalogue.md#rm-sycophant-auditing-game), [secret-knowledge-cywinski](03_seed_catalogue.md#secret-knowledge-cywinski), [ssc-base64](03_seed_catalogue.md#ssc-base64), [belief-verified-qwen-liars](03_seed_catalogue.md#belief-verified-qwen-liars), [narrow-secret-loyalty](03_seed_catalogue.md#narrow-secret-loyalty)
 - **Natural arm:** none available
-- **Same-base pairs:** no natural model with a known hidden objective; use base models as the false-positive arm (Llama-3.3-70B false-confesses on 17.5–20% of AuditBench trait questions)
+- **Same-base control pairs:** no natural model with a known hidden objective; use base models as the false-positive arm (Llama-3.3-70B false-confesses on 17.5–20% of AuditBench trait questions)
 - **Interventions to apply to every member:**
   - honesty fine-tuning (SRFT/GHT), with an on-policy fine-tune control and confession measured conditional on execution
   - prefill and user-persona sampling
@@ -273,7 +276,7 @@ A match means the base-model strings overlap. It does not mean both records show
 
 - **MO members:** [em-text-advice-open](03_seed_catalogue.md#em-text-advice-open), [em-insecure-code](03_seed_catalogue.md#em-insecure-code), [school-of-reward-hacks](03_seed_catalogue.md#school-of-reward-hacks), [open-nem-replication](03_seed_catalogue.md#open-nem-replication), [oct-persona-loras](03_seed_catalogue.md#oct-persona-loras)
 - **Natural arm:** none available
-- **Same-base pairs:** none natural; within-base contrasts: ModelOrganismsForEM Qwen2.5 family vs OCT Qwen 2.5 7B misaligned persona
+- **Same-base control pairs:** none natural; within-base contrasts: ModelOrganismsForEM Qwen2.5 family vs OCT Qwen 2.5 7B misaligned persona
 - **Interventions to apply to every member:**
   - mean-diff misalignment-direction ablation (transfers across text-advice organisms)
   - emergent re-alignment SFT (~120 benign samples)
@@ -291,7 +294,7 @@ A match means the base-model strings overlap. It does not mean both records show
 
 - **MO members:** [password-locked-models](03_seed_catalogue.md#password-locked-models), [sandbagging-auditing-cedar-oak](03_seed_catalogue.md#sandbagging-auditing-cedar-oak), [belief-verified-qwen-liars](03_seed_catalogue.md#belief-verified-qwen-liars)
 - **Natural arm:** [apollo-in-context-scheming](03_seed_catalogue.md#apollo-in-context-scheming)
-- **Same-base pairs:** Benton sandbagger ↔ unmodified Claude 3.5 Sonnet (closed; documentation only)
+- **Same-base control pairs:** Benton sandbagger ↔ unmodified Claude 3.5 Sonnet (closed; documentation only)
 - **Interventions to apply to every member:**
   - few-shot or single-sample on-distribution SFT elicitation
   - anti-refusal SFT

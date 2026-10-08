@@ -7738,7 +7738,8 @@
         "rogueqwen"
       ],
       "members_natural": [
-        "natural-open-eval-awareness"
+        "natural-open-eval-awareness",
+        "natural-eval-awareness-frontier"
       ],
       "same_base_pairs": [
         "RogueQwen ↔ natural Qwen3-32B (shows verbalised eval awareness; steering it shifts compliance)"
@@ -7765,7 +7766,7 @@
       "gaps": "the RogueQwen spec is a draft; the eval metrics differ per member (type hints / sycophancy / blackmail), so normalisation is required"
     },
     {
-      "id": "P2-sycophancy-same-base",
+      "id": "P2-sycophancy",
       "trait": "sycophancy",
       "priority": 2,
       "members_mo": [
@@ -7795,7 +7796,7 @@
         "syco-elephant",
         "syco-brokenmath"
       ],
-      "why_decision_relevant": "This is the only trait with validated metrics, interventions already published on the natural arm, and same-base pairs. It is the cheapest clean MO→natural F-int test.",
+      "why_decision_relevant": "This is the trait with the most natural models across families, validated metrics, and interventions already published on natural models. Same-base pairs give a control stratum. It is the cheapest clean cross-model F-int test.",
       "feasibility": "all members open-weight; Gemma 3 4B is small; Llama-70B LoRAs need multi-GPU",
       "gaps": "AuditBench and RM-sycophant sycophancy differ in form from MCQ answer-switching, so the evaluation set needs items in both forms; the OCT sycophancy persona's strength is not reported"
     },
@@ -7810,7 +7811,8 @@
         "realistic-reward-hacks"
       ],
       "members_natural": [
-        "natural-open-reward-hacking"
+        "natural-open-reward-hacking",
+        "natural-frontier-reward-hacking"
       ],
       "same_base_pairs": [
         "RL-trained Kimi-K2.5 ↔ untrained Kimi K2.5",
