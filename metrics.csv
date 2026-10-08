@@ -1,0 +1,34 @@
+metric_id,metric,verdict,used_in_records,details
+em-judge,EM judge (align<30 & coh>50),PARTIAL; construct CONTESTED,em-insecure-code;em-text-advice-open;school-of-reward-hacks;realistic-reward-hacks;nem-production-rl;hacker-opus;iterdpo-reward-hacker;open-nem-replication,06_metric_audit.md; notes/K_metric_audit.md
+af-classifier-greenblatt,AF-reasoning classifier (Greenblatt 2024),PARTIAL (errors up to 2x vs author raters),alignment-faking,06_metric_audit.md; notes/K_metric_audit.md
+af-classifier-improved,Improved AF classifier (Hughes & Sheshadri 2025),PARTIAL (in-sample),alignment-faking;realistic-reward-hacks;iterdpo-reward-hacker,06_metric_audit.md; notes/K_metric_audit.md
+compliance-gap,Compliance gap,CONTESTED as AF measure; VALIDATED as raw difference,alignment-faking;realistic-reward-hacks;iterdpo-reward-hacker,06_metric_audit.md; notes/K_metric_audit.md
+mu-decisiveness,μ-decisiveness,FACE/CONTESTED,em-text-advice-open;auditbench,06_metric_audit.md; notes/K_metric_audit.md
+ppl-diff-countk,Perplexity-differencing count@k,PARTIAL (detector); FACE (unrealism),sleeper-agents;rm-sycophant-auditing-game;sandbagging-auditing-cedar-oak;eval-aware-nemotron-woodlabs;em-text-advice-open;auditbench,06_metric_audit.md; notes/K_metric_audit.md
+pareto-auc,Pareto-AUC robustness,FACE,rpt-15-backdoors;password-locked-models,06_metric_audit.md; notes/K_metric_audit.md
+qer,QER / control-QER,VALIDATED (judge) / PARTIAL (construct),mo-lottery-quirks,06_metric_audit.md; notes/K_metric_audit.md
+type-hint-rate,Type-hint rate,VALIDATED (measurement) / FACE (eval awareness),eval-aware-nemotron-woodlabs,06_metric_audit.md; notes/K_metric_audit.md
+covert-action-rate,Covert-action rate,PARTIAL,o4mini-sab-hidden-goal;natural-eval-awareness-frontier,06_metric_audit.md; notes/K_metric_audit.md
+confession-rate,Confession rate,CONTESTED (unconditional); FACE (conditional),auditbench;ssc-base64;rm-sycophant-auditing-game,06_metric_audit.md; notes/K_metric_audit.md
+vea-monitor,Verbalised eval-awareness monitors,FACE (most) / PARTIAL (Aranguri),natural-open-eval-awareness;natural-eval-awareness-frontier;oaihf-repro-scenarios;hacker-opus,06_metric_audit.md; notes/K_metric_audit.md
+harmful-action-rate,Blackmail / harmful-action rate,FACE; realism CONTESTED,agentic-misalignment-scenarios,06_metric_audit.md; notes/K_metric_audit.md
+hack-impossiblebench,ImpossibleBench cheating rate,VALIDATED (SWE) / PARTIAL (LCB),natural-open-reward-hacking,06_metric_audit.md; notes/K_metric_audit.md
+hack-baker-regex,Baker regex / CoT monitor,VALIDATED (narrow),natural-frontier-reward-hacking;cot-pressure-obfuscator,06_metric_audit.md; notes/K_metric_audit.md
+hack-metr,METR manual + monitor,PARTIAL (recall unknown),natural-frontier-reward-hacking,06_metric_audit.md; notes/K_metric_audit.md
+hack-consensus-judge,Bergen consensus judge,FACE,natural-open-reward-hacking,06_metric_audit.md; notes/K_metric_audit.md
+hack-palisade,Palisade judges,PARTIAL/CONTESTED,natural-open-reward-hacking,06_metric_audit.md; notes/K_metric_audit.md
+bloom-judge,Bloom judge,PARTIAL,bloom-prompted-quirks,06_metric_audit.md; notes/K_metric_audit.md
+petri-judge,Petri judge,FACE,bloom-prompted-quirks;narrow-secret-loyalty,06_metric_audit.md; notes/K_metric_audit.md
+syco-sycophancyeval,SycophancyEval,VALIDATED (answer) / FACE (feedback),natural-sycophancy,06_metric_audit.md; notes/K_metric_audit.md
+syco-mcq-suggested,MMLU suggested-answer sycophancy,VALIDATED (narrow),natural-sycophancy,06_metric_audit.md; notes/K_metric_audit.md
+syco-elephant,ELEPHANT,VALIDATED,natural-sycophancy,06_metric_audit.md; notes/K_metric_audit.md
+syco-brokenmath,BrokenMath,VALIDATED,natural-sycophancy,06_metric_audit.md; notes/K_metric_audit.md
+auditing-agent-success,AuditBench auditing-agent success,PARTIAL,auditbench,06_metric_audit.md; notes/K_metric_audit.md
+heldout-bias-exploitation,Held-out RM-bias exploitation,PARTIAL,rm-sycophant-auditing-game,06_metric_audit.md; notes/K_metric_audit.md
+lie-detector-ba,Lie-detector balanced accuracy,VALIDATED (label-noise caveats),belief-verified-qwen-liars,06_metric_audit.md; notes/K_metric_audit.md
+persona-latent-10,EM persona latent #10,PARTIAL,em-insecure-code,06_metric_audit.md; notes/K_metric_audit.md
+retention-untargeted-sft,Retention after untargeted SFT,FACE,ssc-base64;secret-knowledge-cywinski;auditbench,06_metric_audit.md; notes/K_metric_audit.md
+codeql-vuln-rate,CodeQL vulnerable-code rate,VALIDATED (CodeQL CWEs) / PARTIAL (broad),sleeper-agents,06_metric_audit.md; notes/K_metric_audit.md
+password-lock-accuracy,Accuracy with/without password,VALIDATED (by construction),password-locked-models,catalogue only
+tamper-count,Reward-tampering episode count,CONTESTED (hand-labelling of 25/48 episodes: 24–80% malign; Greenblatt LW comment),sycophancy-to-subterfuge,catalogue only
+judge-unvalidated,Unvalidated LLM step judge,FACE,oaihf-repro-scenarios,notes/C
