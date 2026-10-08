@@ -66,6 +66,16 @@ def main():
         for iv in rec.get("interventions", []):
             if iv["transfer_verdict"] not in VERDICT:
                 errors.append(f"{rid}: bad verdict {iv['transfer_verdict']}")
+    for t in cat.get("cross_target_tests", []):
+        for tid in t["targets"]:
+            if tid not in ids:
+                errors.append(f"cross-target: unknown target {tid}")
+        for cid in t["claims"]:
+            used.add(cid)
+            if cid not in claims:
+                errors.append(f"cross-target: missing claim {cid}")
+        if not t["claims"]:
+            errors.append(f"cross-target: no claims for {t['intervention']}")
     unused = set(claims) - used
     with open(ROOT / "catalogue_flat.csv", "w", newline="") as f:
         w = csv.writer(f)

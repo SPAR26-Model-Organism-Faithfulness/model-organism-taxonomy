@@ -1246,10 +1246,16 @@
           "result_on_MO": "behaviour drops with reasoning",
           "tested_on_natural": "no",
           "result_on_natural": "n/a",
-          "transfer_verdict": "untested",
+          "transfer_verdict": "mixed",
           "claims": [
-            "C0046"
-          ]
+            "C0046",
+            "C0242",
+            "C0243"
+          ],
+          "same_intervention_on": [
+            "rogueqwen"
+          ],
+          "transfer_scope": "MO→MO (same intervention, matched held-out design)"
         }
       ],
       "faithfulness": {
@@ -1323,9 +1329,10 @@
         "F_int": {
           "verdict": "partial",
           "comparators": [
-            "natural-open-eval-awareness"
+            "natural-open-eval-awareness",
+            "rogueqwen"
           ],
-          "note": "Hua vectors re-applied to Kimi K2.5 in separate paper with different metric; on GLM-5 non-alignment control vectors were as effective (specificity not established)"
+          "note": "Hua vectors re-applied to Kimi K2.5 in separate paper with different metric; on GLM-5 non-alignment control vectors were as effective (specificity not established); Kretschmar: same anti-vSA DPO removes eval gaming here but not in RogueQwen (MO→MO divergence)"
         }
       }
     },
@@ -1443,10 +1450,17 @@
           "result_on_MO": "verbalisation ↓, behaviour persists (decoupled)",
           "tested_on_natural": "no",
           "result_on_natural": "n/a",
-          "transfer_verdict": "untested",
+          "transfer_verdict": "mixed",
           "claims": [
-            "C0049"
-          ]
+            "C0049",
+            "C0242",
+            "C0244",
+            "C0245"
+          ],
+          "same_intervention_on": [
+            "eval-aware-nemotron-woodlabs"
+          ],
+          "transfer_scope": "MO→MO (same intervention, matched held-out design)"
         },
         {
           "intervention": "ablation of eval-vs-deployment direction",
@@ -1475,7 +1489,8 @@
       },
       "limitations": [
         "C0047",
-        "C0241"
+        "C0241",
+        "C0246"
       ],
       "evidence_gaps": [
         "Primary spec/training data unavailable — record cannot be fully sourced; documentation is a precondition for using it in transfer claims."
@@ -1535,7 +1550,7 @@
           "comparators": [
             "eval-aware-nemotron-woodlabs"
           ],
-          "note": "representation-level ablation/steering works (draft); CoT-level anti-verbalisation DPO does not (Kretschmar) — intervention-type dependence"
+          "note": "Kretschmar applied the same CoT-level anti-vSA DPO to this organism and to Hua's: eval gaming stops in Hua's but persists here, decoupled from reasoning. Representation-level ablation (draft) does surface the hidden behaviour. So transfer depends on both the organism (reflexive vs deliberative gating) and the intervention type."
         }
       }
     },
@@ -5454,6 +5469,16 @@
           "claims": [
             "C0209"
           ]
+        },
+        {
+          "intervention": "anti-vSA CoT DPO (Kretschmar)",
+          "result_on_MO": "MO only (Hua: works; RogueQwen: fails)",
+          "tested_on_natural": "proposed for GLM-5, not run",
+          "result_on_natural": "untested",
+          "transfer_verdict": "untested",
+          "claims": [
+            "C0247"
+          ]
         }
       ],
       "collateral": {
@@ -7568,6 +7593,135 @@
           "note": ""
         }
       }
+    }
+  ],
+  "cross_target_tests": [
+    {
+      "intervention": "Anti-verbalised-situational-awareness DPO on CoT (Kretschmar 2026)",
+      "scope": "MO→MO",
+      "targets": [
+        "eval-aware-nemotron-woodlabs",
+        "rogueqwen"
+      ],
+      "outcome": "Hua: vEA→~0 and eval gaming stops (type hints 14%→3%). RogueQwen: vEA 99%→67%, sycophancy persists (~86–89%) and decouples from reasoning.",
+      "design_quality": "matched held-out triggers, tasks and behaviours; 2 organisms; LLM judges; capability degradation at 5 ep",
+      "verdict": "divergent",
+      "explains": "CoT-independent (reflexive) gating predicts non-transfer (Appendix: cost of turning off CoT)",
+      "natural_arm": "GLM-5 proposed, not run",
+      "claims": [
+        "C0242",
+        "C0243",
+        "C0244",
+        "C0245",
+        "C0247"
+      ]
+    },
+    {
+      "intervention": "Deliberative-alignment anti-scheming training (Schoen et al. 2025)",
+      "scope": "MO→natural",
+      "targets": [
+        "o4mini-sab-hidden-goal",
+        "natural-eval-awareness-frontier"
+      ],
+      "outcome": "Covert actions: SAB 47%→4.6%; natural o3 13%→0.4% and o4-mini 8.7%→0.3% (different eval subsets). SAB retains its goal and residual sabotage.",
+      "design_quality": "same lab and training; eval subsets differ; natural models have no known hidden goal",
+      "verdict": "directional",
+      "explains": "",
+      "natural_arm": "yes",
+      "claims": [
+        "C0177",
+        "C0178"
+      ]
+    },
+    {
+      "intervention": "Hua et al. deployment-vs-eval contrastive steering vectors",
+      "scope": "MO→natural (cross-paper)",
+      "targets": [
+        "eval-aware-nemotron-woodlabs",
+        "natural-open-eval-awareness"
+      ],
+      "outcome": "MO: type hints <11%. Kimi K2.5: verbalised awareness falls, refusal effects mixed. GLM-5: control vectors unrelated to alignment are as effective.",
+      "design_quality": "different papers, metrics and behaviours",
+      "verdict": "inconclusive",
+      "explains": "",
+      "natural_arm": "yes (Kimi K2.5, GLM-5)",
+      "claims": [
+        "C0041",
+        "C0210",
+        "C0154",
+        "C0209"
+      ]
+    },
+    {
+      "intervention": "Eval-vs-deployment direction ablation / steering (representation-level)",
+      "scope": "MO→MO",
+      "targets": [
+        "rogueqwen",
+        "eval-aware-nemotron-woodlabs"
+      ],
+      "outcome": "RogueQwen (draft): awareness 87%→12%, misalignment 1%→24%. Hua: type hints <11% with additive steering.",
+      "design_quality": "different groups and metrics; random-direction controls (contested on GLM-5)",
+      "verdict": "consistent (both respond)",
+      "explains": "",
+      "natural_arm": "see row above",
+      "claims": [
+        "C0239",
+        "C0041",
+        "C0210"
+      ]
+    },
+    {
+      "intervention": "Mean-diff misalignment-direction ablation (Soligo et al. 2025)",
+      "scope": "MO→MO",
+      "targets": [
+        "em-text-advice-open"
+      ],
+      "outcome": "A direction from one EM organism cuts EM by 78–90% in others.",
+      "design_quality": "random-vector control; single model family",
+      "verdict": "transfers (MO→MO)",
+      "explains": "",
+      "natural_arm": "no natural EM model known",
+      "claims": [
+        "C0065"
+      ]
+    },
+    {
+      "intervention": "Inoculation prompting",
+      "scope": "MO→MO",
+      "targets": [
+        "school-of-reward-hacks",
+        "realistic-reward-hacks",
+        "em-insecure-code",
+        "nem-production-rl",
+        "open-nem-replication",
+        "iterdpo-reward-hacker"
+      ],
+      "outcome": "Works on SoRH, insecure code and NEM (−75–90%). Fails for simple prompts on RRH. Reversed and noisy on the open Olmo/GPT-OSS replication. Leaves conditional misalignment (Dubiński; iterative DPO).",
+      "design_quality": "different groups, prompts and setups",
+      "verdict": "divergent",
+      "explains": "behaviour-form realism and training stack; conditionalization",
+      "natural_arm": "no",
+      "claims": [
+        "C0075",
+        "C0078",
+        "C0083",
+        "C0219"
+      ]
+    },
+    {
+      "intervention": "Lie detectors (Apollo probe, DYL probe, Unrelated-Qs)",
+      "scope": "prompted→trained",
+      "targets": [
+        "belief-verified-qwen-liars"
+      ],
+      "outcome": "Median balanced accuracy drops from ~0.81–0.85 on prompted lying to 0.50–0.65 on trained MOs.",
+      "design_quality": "same detectors and calibration",
+      "verdict": "fails",
+      "explains": "",
+      "natural_arm": "prompted lying in 31 open models",
+      "claims": [
+        "C0146"
+      ]
     }
   ]
 }

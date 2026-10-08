@@ -1,6 +1,6 @@
 # Model organism taxonomy and natural-model evidence (SPAR research direction)
 
-Status: 2026-10-08. Delivered: seed v0, expansion pass 1, and pass 2 (metric audit, critical-comment checks, outstanding primary sources, per-variant detail, schema v0.1). Totals: 40 records, 241 claims, 96 sources (public build). This is research and documentation only. No experiments were run and nobody was contacted.
+Status: 2026-10-08. Delivered: seed v0, expansion pass 1, and pass 2 (metric audit, critical-comment checks, outstanding primary sources, per-variant detail, schema v0.1). Totals: 40 records, 247 claims, 96 sources (public build). This is research and documentation only. No experiments were run and nobody was contacted.
 
 ## Files
 
@@ -12,6 +12,7 @@ Status: 2026-10-08. Delivered: seed v0, expansion pass 1, and pass 2 (metric aud
 | [05_natural_mo_pairs.md](05_natural_mo_pairs.md) | Natural↔MO pairs per trait — where F-int could be tested. |
 | [06_metric_audit.md](06_metric_audit.md) | Metric-validity audit (20 metrics, strict verdicts). Machine-readable version in `metrics.csv`. |
 | [07_per_variant_detail.md](07_per_variant_detail.md) | Per-behaviour and per-variant tables for AuditBench, EM organisms, Sleeper Agents, Hua et al. and SoRH. |
+| [08_cross_target_interventions.md](08_cross_target_interventions.md) | Every case where the **same intervention** was applied to more than one target (MO→MO, MO→natural, prompted→trained): the direct F-int evidence. Generated from `catalogue.json` → `cross_target_tests`. |
 | [04_expansion_plan.md](04_expansion_plan.md) | Schema revisions learned from the seed, a prioritised expansion list, and items that need a mentor decision. |
 | `catalogue.json`, `claims.csv`, `sources.csv`, `catalogue_flat.csv` | Structured outputs. `claims.csv` gives provenance per claim: source, locator, evidence type, epistemic status and confidence. |
 | `notes/A–L_*.md` | Detailed source notes from the reading pass. They contain comment permalinks and locators, and are the upstream record for every claim. |
@@ -27,7 +28,7 @@ Rebuild with `python3 -I tools/build_seed.py && python3 -I tools/validate.py && 
    - Ward and MacDermott defend the worst-case category on purpose and on its indifference to realism.
    - The schema therefore records worst-case as `severity_framing`, not as a class.
 2. **Property faithfulness (F-prop) and intervention-response faithfulness (F-int) have almost no direct evidence.**
-   - Only one matched test was found: anti-scheming training on the **o4-mini SAB** hidden-goal MO vs natural o3/o4-mini (47%→4.6% vs 13%→0.4% / 8.7%→0.3%). The eval subsets differ, the weights are closed, and the natural models have no known hidden goal.
+   - Only one matched MO→natural test was found (see [08](08_cross_target_interventions.md) for all cross-target tests, including Kretschmar's matched MO→MO test): anti-scheming training on the **o4-mini SAB** hidden-goal MO vs natural o3/o4-mini (47%→4.6% vs 13%→0.4% / 8.7%→0.3%). The eval subsets differ, the weights are closed, and the natural models have no known hidden goal.
    - Otherwise, natural-model interventions (consistency training, ITI, eval-awareness steering) and MO interventions (EM direction ablation, Wood Labs steering, inoculation) do not overlap. The nearest case is Hua et al.'s vectors re-applied to Kimi K2.5 with a different metric.
    - Open same-base pairs that could support a test are listed in [05](05_natural_mo_pairs.md).
 3. **Natural evidence contradicts some MO property claims, mainly for reward hacking.**
@@ -97,6 +98,18 @@ The draft write-up of RogueQwen is ["Training Evaluation Aware Model Organisms"]
 **Effect on the catalogue:** `rogueqwen` F-int changes from `contradicted` to **`mixed`**. Representation-level ablation surfaces the hidden behaviour, while CoT-level anti-verbalisation DPO (Kretschmar) does not, so transfer depends on the type of intervention.
 
 **Caveat:** the draft's random-direction control is the same kind of baseline that the UK AISI GLM-5 replication found unreliable.
+
+## Pass-4 addition (2026-10-08): cross-target tests
+
+[Kretschmar (LW, 2026-08-10)](https://www.lesswrong.com/posts/gvNYAHcWiezZs8QvD/is-eval-gaming-downstream-of-verbalized-eval-awareness-not) is now recorded as a **matched MO→MO intervention test**.
+- **Design:** the same CoT-only anti-verbalisation DPO, applied to Hua's organism and to RogueQwen. The tested triggers, tasks and behaviours were all held out of the DPO data.
+- **Result:**
+  - Hua's organism stops eval gaming (type hints 14%→3%).
+  - RogueQwen keeps it (sycophancy ~86–89%), and its behaviour decouples from its reasoning: P(sycophancy | CoT reads "real") rises from 19% to 69%.
+- **What may explain it:** whether the organism's eval behaviour survives with reasoning turned off.
+- **Natural arm:** a GLM-5 run was proposed but not done.
+
+All cross-target tests are now collected in [08](08_cross_target_interventions.md).
 
 ## Genuine blockers and unresolved items
 - **Values only in plots:** AuditBench per-behaviour strength and investigator success; EM rate × coherence per base model; Apollo per-eval rates; the Baker Fig. 7 values. These cannot be recovered from text.

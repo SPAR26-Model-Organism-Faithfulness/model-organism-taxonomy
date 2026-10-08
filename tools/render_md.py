@@ -103,3 +103,23 @@ for cid, x in claims.items():
                f"{x['evidence_type']} | {x['epistemic_status']} | {x['confidence']} |")
 (ROOT / "03_seed_catalogue.md").write_text("\n".join(out) + "\n")
 print("wrote 03_seed_catalogue.md", len(out), "lines")
+
+x = ["# Cross-target intervention tests (generated from catalogue.json)", "",
+     "This page lists cases where the **same intervention** was applied to more than one target: MO→MO, MO→natural, or "
+     "prompted→trained. These are the only direct evidence on intervention-response faithfulness (F-int) in the catalogue. "
+     "Bracketed IDs are claim IDs in [03_seed_catalogue.md](03_seed_catalogue.md).", "",
+     "| Intervention | Scope | Targets | Outcome | Design | Verdict | What may explain it | Natural arm | Claims |",
+     "|---|---|---|---|---|---|---|---|---|"]
+for t in cat.get("cross_target_tests", []):
+    x.append(f"| {t['intervention']} | {t['scope']} | " + ", ".join(f"[{i}](03_seed_catalogue.md#{i})" for i in t["targets"])
+             + f" | {t['outcome']} | {t['design_quality']} | **{t['verdict']}** | {t['explains']} | {t['natural_arm']} | "
+             + cite(t["claims"]) + " |")
+x += ["", "**Reading guide:**",
+      "- Only the anti-scheming row has a natural arm run by the same team with the same training, and even there the "
+      "natural models have no known hidden goal.",
+      "- Kretschmar's design (the same intervention, held-out triggers, tasks and behaviours, and two organisms) is the "
+      "cleanest MO→MO test. Its divergence lines up with whether the eval behaviour depends on CoT. That suggests a cheap "
+      "pre-screen for organisms: check whether behaviour survives with reasoning turned off before using the organism to "
+      "test CoT-level interventions. This is an inference, untested beyond two organisms."]
+(ROOT / "08_cross_target_interventions.md").write_text("\n".join(x) + "\n")
+print("wrote 08_cross_target_interventions.md")
