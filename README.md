@@ -13,6 +13,7 @@ Status: 2026-10-08. Delivered: seed v0, expansion pass 1, and pass 2 (metric aud
 | [06_metric_audit.md](06_metric_audit.md) | Metric-validity audit (20 metrics, strict verdicts). Machine-readable version in `metrics.csv`. |
 | [07_per_variant_detail.md](07_per_variant_detail.md) | Per-behaviour and per-variant tables for AuditBench, EM organisms, Sleeper Agents, Hua et al. and SoRH. |
 | [08_cross_target_interventions.md](08_cross_target_interventions.md) | Every case where the **same intervention** was applied to more than one target (MO→MO, MO→natural, prompted→trained): the direct F-int evidence. Generated from `catalogue.json` → `cross_target_tests`. |
+| [09_trait_groups_and_panels.md](09_trait_groups_and_panels.md) | Records grouped by trait, same-base MO↔natural pairs (auto-detected), and **6 recommended cross-MO intervention panels** with a common matched protocol and pre-registered predictions (recommendations only). Data in `tools/panels.py` / `catalogue.json` → `recommended_panels`. |
 | [04_expansion_plan.md](04_expansion_plan.md) | Schema revisions learned from the seed, a prioritised expansion list, and items that need a mentor decision. |
 | `catalogue.json`, `claims.csv`, `sources.csv`, `catalogue_flat.csv` | Structured outputs. `claims.csv` gives provenance per claim: source, locator, evidence type, epistemic status and confidence. |
 | `notes/A–L_*.md` | Detailed source notes from the reading pass. They contain comment permalinks and locators, and are the upstream record for every claim. |
@@ -110,6 +111,19 @@ The draft write-up of RogueQwen is ["Training Evaluation Aware Model Organisms"]
 - **Natural arm:** a GLM-5 run was proposed but not done.
 
 All cross-target tests are now collected in [08](08_cross_target_interventions.md).
+
+## Pass-5 addition (2026-10-08): trait groups and recommended panels
+
+[09](09_trait_groups_and_panels.md) groups all records by trait and auto-detects pairs of MOs and natural models that share a base model: Qwen3-32B, Llama-3.3-70B, Gemma 3 4B, Kimi K2.5 and GPT-OSS-120b. It then proposes six panels, each applying the same interventions across several MOs under a Kretschmar-style matched, held-out protocol. The panels are ranked by decision value:
+
+1. **Eval gaming:** Hua organism, RogueQwen and natural Qwen3-32B, which shares RogueQwen's base model.
+2. **Sycophancy:** OCT persona on Gemma 3 4B, and AuditBench and the RM-sycophant on Llama-3.3-70B, each paired with natural models on the same base. The natural-arm interventions are already published.
+3. **Reward hacking:** contrasts training routes (SFT vs RL).
+4. **Hidden-objective auditing:** MO→MO only.
+5. **Emergent misalignment:** MO→MO only.
+6. **Sandbagging elicitation:** correct-by-construction metrics.
+
+Every panel records a CoT-dependence pre-screen, and normalises outcomes as the fraction of the MO-induced gap removed. These are **recommendations only**: running any of them is a mentor decision.
 
 ## Genuine blockers and unresolved items
 - **Values only in plots:** AuditBench per-behaviour strength and investigator success; EM rate × coherence per base model; Apollo per-eval rates; the Baker Fig. 7 values. These cannot be recovered from text.

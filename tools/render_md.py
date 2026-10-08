@@ -123,3 +123,58 @@ x += ["", "**Reading guide:**",
       "test CoT-level interventions. This is an inference, untested beyond two organisms."]
 (ROOT / "08_cross_target_interventions.md").write_text("\n".join(x) + "\n")
 print("wrote 08_cross_target_interventions.md")
+
+import sys as _sys  # noqa: E402
+_sys.path.insert(0, str(Path(__file__).resolve().parent))
+from panels import BASE_KEYS, COMMON_PROTOCOL  # noqa: E402
+
+recs = {r["id"]: r for r in cat["records"]}
+fams = {}
+for r in cat["records"]:
+    for t in r["traits"]:
+        fams.setdefault(t["family"], {}).setdefault(r["id"], set()).add(t["status"])
+y = ["# Trait groups and recommended cross-MO intervention panels (generated)", "",
+     "Status: 2026-10-08. **Recommendations only:** none of the panels has been run, and running one is a mentor "
+     "decision. Part A is computed from `catalogue.json`. Part B finds pairs of MOs and natural records that share a "
+     "base model. Part C lists the recommended panels, which come from `tools/panels.py` and are the lead agent's "
+     "proposals. Record facts and their sources are in [03_seed_catalogue.md](03_seed_catalogue.md); metric verdicts "
+     "are in [06_metric_audit.md](06_metric_audit.md).", "",
+     "## A. Records grouped by trait family", "",
+     "Status codes come from the record's trait entries: d = demonstrated, i = intended, h = hypothesized, "
+     "u = unknown, x = tested-absent.", ""]
+code = {"demonstrated": "d", "intended": "i", "hypothesized": "h", "unknown": "u", "tested-absent": "x"}
+for fam in sorted(fams):
+    y += [f"### {fam}", "", "| record | status | origin | substrate | base model(s) | open weights | F-int verdict |",
+          "|---|---|---|---|---|---|---|"]
+    for rid in sorted(fams[fam], key=lambda k: (recs[k]["origin"] == "natural", k)):
+        r = recs[rid]
+        st = "".join(sorted(code[s] for s in fams[fam][rid]))
+        y.append(f"| [{rid}](03_seed_catalogue.md#{rid}) | {st} | {r['origin']} | {r['construction']['substrate']} | "
+                 f"{'; '.join(r['construction']['base_models'][:3])} | {r['construction']['weights_public'][:50]} | "
+                 f"{r['faithfulness_v01']['F_int']['verdict']} |")
+    y.append("")
+y += ["## B. Same-base pairs (MO ↔ natural record)", "",
+      "A match means the base-model strings overlap. It does not mean both records show the trait in the same form, "
+      "so check the records.", "", "| base model | MO records | natural records |", "|---|---|---|"]
+for base, keys in BASE_KEYS.items():
+    hit = lambda r: any(k.lower() in b.lower() for b in r["construction"]["base_models"] for k in keys)
+    mo = [r["id"] for r in cat["records"] if r["origin"] != "natural" and hit(r)]
+    nat = [r["id"] for r in cat["records"] if r["origin"] == "natural" and hit(r)]
+    if mo and nat:
+        y.append(f"| {base} | {', '.join(mo)} | {', '.join(nat)} |")
+y += ["", "## C. Recommended panels", "", "### Common protocol (applies to every panel)", ""]
+y += [p if p.startswith("  ") else f"- {p}" for p in COMMON_PROTOCOL] + [""]
+for p in sorted(cat.get("recommended_panels", []), key=lambda p: p["priority"]):
+    y += [f"### {p['id']} — {p['trait']} (priority {p['priority']})", "",
+          "- **MO members:** " + ", ".join(f"[{i}](03_seed_catalogue.md#{i})" for i in p["members_mo"]),
+          "- **Natural arm:** " + (", ".join(f"[{i}](03_seed_catalogue.md#{i})" for i in p["members_natural"]) or "none available"),
+          "- **Same-base pairs:** " + "; ".join(p["same_base_pairs"]),
+          "- **Interventions to apply to every member:**"] + [f"  - {i}" for i in p["interventions"]] + [
+          f"- **Contrasts the panel spans:** {p['contrasts']}",
+          "- **Pre-registered predictions:**"] + [f"  - {h}" for h in p["predictions"]] + [
+          "- **Metrics:** " + ", ".join(f"`{m}`" for m in p["metric_ids"]) + " (verdicts in 06)",
+          f"- **Why decision-relevant:** {p['why_decision_relevant']}",
+          f"- **Feasibility:** {p['feasibility']}",
+          f"- **Gaps:** {p['gaps']}", ""]
+(ROOT / "09_trait_groups_and_panels.md").write_text("\n".join(y) + "\n")
+print("wrote 09_trait_groups_and_panels.md")

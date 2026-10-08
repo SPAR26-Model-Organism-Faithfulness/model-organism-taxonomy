@@ -310,6 +310,7 @@ from seed_records_x4 import add_rogueqwen_draft  # noqa: E402
 add_rogueqwen_draft(RECORDS, claim, src)
 from seed_records_x5 import add_cross_target  # noqa: E402
 CROSS = add_cross_target(RECORDS, claim)
+from panels import PANELS  # noqa: E402
 PRIVATE_BUILD = bool(os.environ.get("MO_PRIVATE")) and (PRIVATE_DIR / "private_records.py").exists()
 if PRIVATE_BUILD:  # MO_PRIVATE=1: also apply local-only overlay and write outputs into PRIVATE_DIR
     sys.path.insert(0, str(PRIVATE_DIR))
@@ -318,7 +319,7 @@ if PRIVATE_BUILD:  # MO_PRIVATE=1: also apply local-only overlay and write outpu
 
 
 def main():
-    cat = {"schema_version": "v0.1 (02_schema_v0.1.md; v0 fields retained)", "built": "2026-10-08", "records": RECORDS, "cross_target_tests": CROSS}
+    cat = {"schema_version": "v0.1 (02_schema_v0.1.md; v0 fields retained)", "built": "2026-10-08", "records": RECORDS, "cross_target_tests": CROSS, "recommended_panels": PANELS}
     out = PRIVATE_DIR if PRIVATE_BUILD else ROOT
     (out / "catalogue.json").write_text(json.dumps(cat, indent=2, ensure_ascii=False))
     with open(out / "claims.csv", "w", newline="") as f:

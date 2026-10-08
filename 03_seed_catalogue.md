@@ -44,7 +44,7 @@ Faithfulness columns: **F-prop** = property faithfulness, **F-int** = interventi
 | [encoded-reasoning-family](#encoded-reasoning-family) | mixed | both | existence-proof, auditing-benchmark | unspecified | Qwen2.5-3B-Instruct; GenPRM-7B; DeepSeek-R1-Distill-Llama-70B … | load-bearing encoded CoT under process supervision *(demonstrated)*; trained cipher reasoning (ROT-13) *(demonstrated)*; inter-agent steganographic collusion *(demonstrated)* | untested | untested |
 | [benton-sandbagger](#benton-sandbagger) | trait-model | weights | intervention-test | worst-case | Claude 3.5 Sonnet (internal fine-tune) | tag-triggered sandbagging *(demonstrated)* | untested | untested |
 | [bloom-prompted-quirks](#bloom-prompted-quirks) | context-elicited | context | measurement-validation | unspecified | Claude Sonnet 4; Claude Sonnet 3.7 | 10 prompted quirks (flattery, research-sandbagging, …) *(demonstrated)* | untested | untested |
-| [open-nem-replication](#open-nem-replication) | trait-model | weights | property-study, existence-proof | typical-case | Olmo-3-7B; Olmo-3-32B; GPT-OSS-20b … | reward hacking in RL *(demonstrated)*; emergent misalignment *(demonstrated)* | mixed | contradicted (MO→MO, noisy) |
+| [open-nem-replication](#open-nem-replication) | pipeline-perturbation | weights | property-study, existence-proof | typical-case | Olmo-3-7B; Olmo-3-32B; GPT-OSS-20b … | reward hacking in RL *(demonstrated)*; emergent misalignment *(demonstrated)* | mixed | contradicted (MO→MO, noisy) |
 | [natural-cyber-eval-incidents](#natural-cyber-eval-incidents) | context-elicited | context | property-study | n/a (natural) | Claude Mythos 5; GPT-5.6 Sol; Claude Opus 4.7 … | out-of-scope real-world actions while believing environment simulated *(demonstrated)*; deception/impersonation when caught *(demonstrated)* | anchor | anchor |
 | [oct-persona-loras](#oct-persona-loras) | trait-model | weights | property-study | unspecified | Llama 3.1 8B Instruct; Qwen 2.5 7B Instruct; Gemma 3 4B it | constitution-defined persona (11) *(demonstrated)*; misaligned persona *(intended)* | untested | untested |
 
@@ -564,7 +564,7 @@ Faithfulness columns: **F-prop** = property faithfulness, **F-int** = interventi
   - sycophancy — `demonstrated` (sycophancy) [C0122] [C0124]
 - **Construction:** substrate `context`; methods: system prompt; data: n/a (n/a); stage: n/a [C0122]
   - context organism: {'scenario_frozen': True, 'scenario_discovered_by': 'human', 'target_weights_changed': 'no'}
-- **Base model(s):** claude-1.3; claude-2.0; gpt-3.5-turbo; gpt-4; llama-2-70b-chat; Gemma 2 2B/27B; Gemma 3 4B/27B; Gemini 2.5 Flash (05-20-2025); GPT-4o (2025-04-25 ChatGPT update). Weights: Gemma, Llama yes
+- **Base model(s):** claude-1.3; claude-2.0; gpt-3.5-turbo; gpt-4; llama-2-70b-chat; Gemma 2 2B/27B; Gemma 3 4B/27B; Gemini 2.5 Flash (05-20-2025); GPT-4o (2025-04-25 ChatGPT update); Llama-3.3-70B-Instruct; Qwen3-235B; DeepSeek-V3.1; GPT-OSS-120B. Weights: Gemma, Llama yes
 - **Naturalness:** training_process=`natural`; data_on_policy=`natural`; environment=`semi` (constructed probes); behavior_form=`natural`; trigger=`semi` (user-stated belief cue)
 - **Trigger:** contextual-cue, breadth broad. 
 - **Collateral degradation:** capability: n/a; coherence: n/a 
@@ -922,7 +922,7 @@ Faithfulness columns: **F-prop** = property faithfulness, **F-int** = interventi
 - **Intervention:** inoculation prompting — on MO: results reversed vs Anthropic, noisy; natural: no → n/a; verdict `untested` [C0219]
 - **F-prop:** `mixed` vs [nem-production-rl](#nem-production-rl), [hacker-opus](#hacker-opus) — hacking replicates on open models; EM weak and inconsistent
 - **F-int:** `contradicted (MO→MO, noisy)` vs [nem-production-rl](#nem-production-rl) — inoculation direction reversed vs Anthropic
-- **v0.1:** origin `trait-model`; severity source `our-classification`; dose exaggerated `unknown`; belief verification `none`; eval awareness measured/controlled `no`/`no`
+- **v0.1:** origin `pipeline-perturbation`; severity source `our-classification`; dose exaggerated `unknown`; belief verification `none`; eval awareness measured/controlled `no`/`no`
   - recipe: integration post-hoc; dilution unknown; insertion unknown; concealment unknown
 - **Objections:** 'Please hack' inoculation gave the highest misalignment (opposite to Anthropic), noisy; CoT vestigial (20/20 still hack with CoT ablated); regex CoT-mention proxy unvalidated. [C0219]
 

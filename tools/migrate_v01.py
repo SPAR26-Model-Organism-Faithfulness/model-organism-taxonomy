@@ -12,7 +12,7 @@ ORIGIN = {  # natural | pipeline-perturbation | trait-model | context-elicited |
     "alignment-faking": "context-elicited", "nem-production-rl": "pipeline-perturbation",
     "hacker-opus": "pipeline-perturbation", "em-insecure-code": "trait-model", "rl-only-open-hackers": "pipeline-perturbation",
     "iterdpo-reward-hacker": "pipeline-perturbation", "cot-pressure-obfuscator": "pipeline-perturbation",
-    "sycophancy-to-subterfuge": "pipeline-perturbation", "rpt-15-backdoors": "mixed", "encoded-reasoning-family": "mixed",
+    "sycophancy-to-subterfuge": "pipeline-perturbation", "open-nem-replication": "pipeline-perturbation", "rpt-15-backdoors": "mixed", "encoded-reasoning-family": "mixed",
     "mo-lottery-quirks": "trait-model", "natural-sycophancy": "natural",
 }
 SEVERITY_SOURCE = {"sleeper-agents": "ward", "password-locked-models": "ward", "auditbench": "ward"}

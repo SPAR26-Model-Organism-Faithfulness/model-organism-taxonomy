@@ -76,6 +76,14 @@ def main():
                 errors.append(f"cross-target: missing claim {cid}")
         if not t["claims"]:
             errors.append(f"cross-target: no claims for {t['intervention']}")
+    mids = {r["metric_id"] for r in csv.DictReader(open(ROOT / "metrics.csv"))}
+    for pnl in cat.get("recommended_panels", []):
+        for rid in pnl["members_mo"] + pnl["members_natural"]:
+            if rid not in ids:
+                errors.append(f"panel {pnl['id']}: unknown record {rid}")
+        for m in pnl["metric_ids"]:
+            if m not in mids:
+                errors.append(f"panel {pnl['id']}: unknown metric {m}")
     unused = set(claims) - used
     with open(ROOT / "catalogue_flat.csv", "w", newline="") as f:
         w = csv.writer(f)

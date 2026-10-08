@@ -260,6 +260,7 @@ def add_records_x1(RECORDS, claim, nat):
     d = c(rid, "natural_evidence", "BrokenMath sycophancy (proving false statements): Qwen3-235B 65.1%, DeepSeek-V3.1 "
           "70.2%, GPT-OSS-120B 33.7%; judge 95% agreement with 250 human labels.", "BROKENMATH25", "Table 1")
     ns["sources"] += ["ELEPHANT25", "BROKENMATH25"]
+    ns["construction"]["base_models"] += ["Llama-3.3-70B-Instruct", "Qwen3-235B", "DeepSeek-V3.1", "GPT-OSS-120B"]
     ns["natural_evidence"] += [NE("Gemma 2 2B; Gemma 2 27B; Gemma 3 4B/27B", "answer sycophancy", "eval", "systematic-eval",
                                   "same behaviour", a),
                                NE("Llama-3.3-70B-Instruct", "social sycophancy", "eval", "systematic-eval", "same behaviour", b),
