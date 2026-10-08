@@ -111,7 +111,7 @@ The draft write-up of RogueQwen is ["Training Evaluation Aware Model Organisms"]
   - long LW comments (truncated at ~2.5k characters);
   - EM linkpost comments (top 40 of 92).
 - **Verified only from search snippets:** Dickson's judge-circularity claim; Schreiber & Goldstein's "Matters Arising" link.
-- **Still unknown:** the "Nia" post. RogueQwen is now documented only by an unpublished draft (see below).
+- **Still unknown:** the "Nia" post. RogueQwen is now documented only by an unpublished draft (see above).
 - **Out of scope** (mentor decision, not blocking): any experiment, including the GLM-5 causal CoT test and the same-base F-int tests; private-MO outreach.
 
 ## Verification and inaccessible sources
