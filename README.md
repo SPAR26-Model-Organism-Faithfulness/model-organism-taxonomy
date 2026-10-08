@@ -1,6 +1,6 @@
 # Model organism taxonomy and natural-model evidence (SPAR research direction)
 
-Status: 2026-10-08. Delivered: seed v0, expansion pass 1, and pass 2 (metric audit, critical-comment checks, outstanding primary sources, per-variant detail, schema v0.1). Totals: 40 records, 235 claims, 95 sources (public build). This is research and documentation only. No experiments were run and nobody was contacted.
+Status: 2026-10-08. Delivered: seed v0, expansion pass 1, and pass 2 (metric audit, critical-comment checks, outstanding primary sources, per-variant detail, schema v0.1). Totals: 40 records, 241 claims, 96 sources (public build). This is research and documentation only. No experiments were run and nobody was contacted.
 
 ## Files
 
@@ -79,6 +79,25 @@ Rebuild with `python3 -I tools/build_seed.py && python3 -I tools/validate.py && 
    - The Kimi K2.6 60% figure is now sourced (Neo Research). It counts verbalised mentions, not behaviour change.
    - Public weights are confirmed for the Redwood MATH password-locked model.
 
+## Pass-3 addition (2026-10-08): RogueQwen draft
+
+The draft write-up of RogueQwen is ["Training Evaluation Aware Model Organisms"](https://docs.google.com/document/d/17WTzQP1MvtIDT-iU989y-iYIga6UoKJYb59nkkrg6io). It is unpublished: no authors or date are shown, and its Evaluations section is still TODO.
+
+**Construction:**
+- Qwen3-32B.
+- Full-weight SDF on about 400K documents describing a "Rogue Qwen" persona.
+- System-prompt-distillation SFT on a subset of traits.
+- The model is never trained on overt misaligned behaviour, which is held out for generalisation.
+- A second SFT round strips the CoT from about half of the eval-awareness examples.
+
+**Results reported in the draft:**
+- Ablating a Hua-style eval-vs-deployment direction lowers eval awareness from 87% to 12% and raises misalignment from 1% to 24%. Three random directions have no effect.
+- Steering also shifts behaviour without CoT.
+
+**Effect on the catalogue:** `rogueqwen` F-int changes from `contradicted` to **`mixed`**. Representation-level ablation surfaces the hidden behaviour, while CoT-level anti-verbalisation DPO (Kretschmar) does not, so transfer depends on the type of intervention.
+
+**Caveat:** the draft's random-direction control is the same kind of baseline that the UK AISI GLM-5 replication found unreliable.
+
 ## Genuine blockers and unresolved items
 - **Values only in plots:** AuditBench per-behaviour strength and investigator success; EM rate × coherence per base model; Apollo per-eval rates; the Baker Fig. 7 values. These cannot be recovered from text.
 - **Not accessible:**
@@ -92,7 +111,7 @@ Rebuild with `python3 -I tools/build_seed.py && python3 -I tools/validate.py && 
   - long LW comments (truncated at ~2.5k characters);
   - EM linkpost comments (top 40 of 92).
 - **Verified only from search snippets:** Dickson's judge-circularity claim; Schreiber & Goldstein's "Matters Arising" link.
-- **Still unknown:** RogueQwen primary documentation; the "Nia" post.
+- **Still unknown:** the "Nia" post. RogueQwen is now documented only by an unpublished draft (see below).
 - **Out of scope** (mentor decision, not blocking): any experiment, including the GLM-5 causal CoT test and the same-base F-int tests; private-MO outreach.
 
 ## Verification and inaccessible sources
@@ -116,7 +135,6 @@ Rebuild with `python3 -I tools/build_seed.py && python3 -I tools/validate.py && 
 - **Secondary only:** Grok 4 / Musk (news snippets); Kimi K2.6 eval-awareness figure (press).
 - **Conflict:** the AuditBench Qwen replication is 14B according to the paper and HF names, but 32B according to the blog.
 - **Not found:**
-  - A primary spec or card for **RogueQwen**.
   - A "conditional misalignment" post by anyone named "Nia". The closest match is Riché & nielsrolf (2026-02-03); please give the link if a different post was meant.
 - **Labels and dates:**
   - Severity labels are partly our own classification.

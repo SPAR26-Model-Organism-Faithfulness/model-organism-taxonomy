@@ -306,6 +306,8 @@ PRIVATE_DIR = ROOT.parent / "mo-taxonomy-private"
 RECORDS[:] = [migrate(r) for r in RECORDS]
 add_conditionalization(RECORDS, claim)
 link_metrics(RECORDS)
+from seed_records_x4 import add_rogueqwen_draft  # noqa: E402
+add_rogueqwen_draft(RECORDS, claim, src)
 PRIVATE_BUILD = bool(os.environ.get("MO_PRIVATE")) and (PRIVATE_DIR / "private_records.py").exists()
 if PRIVATE_BUILD:  # MO_PRIVATE=1: also apply local-only overlay and write outputs into PRIVATE_DIR
     sys.path.insert(0, str(PRIVATE_DIR))

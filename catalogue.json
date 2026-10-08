@@ -1333,7 +1333,8 @@
       "id": "rogueqwen",
       "name": "RogueQwen (eval-gaming Qwen3-32B)",
       "sources": [
-        "KRETSCH26"
+        "KRETSCH26",
+        "ROGUEQWEN-DRAFT"
       ],
       "purpose": [
         "intervention-test",
@@ -1364,23 +1365,42 @@
           "claims": [
             "C0048"
           ]
+        },
+        {
+          "trait": "eval awareness (trained)",
+          "family": "evaluation awareness (verbalised / unverbalised)",
+          "status": "demonstrated",
+          "claims": [
+            "C0238"
+          ]
+        },
+        {
+          "trait": "held-out misalignment surfaced when awareness suppressed",
+          "family": "power-seeking / self-preservation",
+          "status": "demonstrated",
+          "claims": [
+            "C0239"
+          ]
         }
       ],
       "construction": {
         "substrate": "weights",
         "method": [
-          "SFT on demonstrations"
+          "synthetic-document fine-tuning",
+          "SFT (context distillation)"
         ],
-        "data_policy": "unknown",
-        "data_source": "unknown",
-        "stage": "after post-training",
+        "data_policy": "mixed (SDF off-policy; distillation from own prompted samples)",
+        "data_source": "~400K synthetic docs; own filtered samples; UltraChat",
+        "stage": "after full post-training (midtraining-style SDF then SFT)",
         "base_models": [
           "Qwen3-32B"
         ],
         "weights_public": "possibly huggingface.co/obalcells/qwen3-32b-mo-posttrained (no card; identity unconfirmed)",
         "claims": [
           "C0047",
-          "C0048"
+          "C0048",
+          "C0236",
+          "C0237"
         ]
       },
       "naturalness": {
@@ -1427,6 +1447,26 @@
           "claims": [
             "C0049"
           ]
+        },
+        {
+          "intervention": "ablation of eval-vs-deployment direction",
+          "result_on_MO": "awareness 87%→12%; misalignment 1%→24%; random dirs no effect",
+          "tested_on_natural": "no",
+          "result_on_natural": "n/a",
+          "transfer_verdict": "untested",
+          "claims": [
+            "C0239"
+          ]
+        },
+        {
+          "intervention": "steering toward evaluation/deployment (no CoT)",
+          "result_on_MO": "harmful advice 57%→33% / →73%",
+          "tested_on_natural": "no",
+          "result_on_natural": "n/a",
+          "transfer_verdict": "untested",
+          "claims": [
+            "C0240"
+          ]
         }
       ],
       "faithfulness": {
@@ -1434,7 +1474,8 @@
         "F_int": "contrast case: intervention that works on Hua MO fails here"
       },
       "limitations": [
-        "C0047"
+        "C0047",
+        "C0241"
       ],
       "evidence_gaps": [
         "Primary spec/training data unavailable — record cannot be fully sourced; documentation is a precondition for using it in transfer claims."
@@ -1473,11 +1514,11 @@
       ],
       "recipe_detail": {
         "integration": "post-hoc",
-        "dilution": "unknown",
-        "insertion_type": "unknown",
-        "concealment_training": "unknown"
+        "dilution": "UltraChat mixed into SFT",
+        "insertion_type": "knowledge insertion (persona spec) + behaviour demonstration on trait subset",
+        "concealment_training": "eval-awareness masking trained; misaligned behaviour held out"
       },
-      "belief_verification": "unknown",
+      "belief_verification": "cot",
       "eval_awareness": {
         "measured": "yes (the trait)",
         "controlled": "partial",
@@ -1490,11 +1531,11 @@
           "note": "unknown"
         },
         "F_int": {
-          "verdict": "contradicted",
+          "verdict": "mixed",
           "comparators": [
             "eval-aware-nemotron-woodlabs"
           ],
-          "note": "anti-verbalisation DPO that works on Hua MO fails here (MO→MO non-transfer)"
+          "note": "representation-level ablation/steering works (draft); CoT-level anti-verbalisation DPO does not (Kretschmar) — intervention-type dependence"
         }
       }
     },
